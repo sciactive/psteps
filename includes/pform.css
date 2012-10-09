@@ -1,5 +1,5 @@
 /*
-Pines Form 2.0
+Pines Form 3.1
 
 license: http://www.gnu.org/licenses/gpl.html
 license: http://www.gnu.org/licenses/lgpl.html
@@ -8,106 +8,306 @@ author: Hunter Perrin <hunter@sciactive.com>
 copyright: SciActive.com
 link: http://pinesframework.org/pform/
 */
-.pf-form {
-	display: inline;
-}
-.pf-form:after, .pf-form fieldset:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-.pf-form .pf-clearing { /* For clearing BRs... */
-	clear: both;
-	height: 1px;
-}
-.pf-form fieldset {
-	padding: 5.6px 10px 12px;
-	border: 1px solid #CCC;
-}
-.pf-form fieldset.pf-group {
-	display: block;
-	clear: left;
-	margin-bottom: 15px;
-}
-.pf-form .pf-element {
-	float: left;
-	clear: left;
-	padding-bottom: 15px;
-}
-.pf-form .pf-heading, .pf-form .pf-element.pf-full-width {
-	width: 100%;
-}
-.pf-form .pf-heading {
-	border-bottom: 1px solid #CCC;
-	padding-bottom: 0;
-	margin-bottom: 10px;
-}
-.pf-form .pf-element .pf-label, .pf-form .pf-element .pf-note {
-	width: 230px; /* Width of labels. */
-	float: left;
-}
-.pf-form.pf-labels-right .pf-label, .pf-form .pf-labels-right .pf-label, .pf-form .pf-labels-right.pf-label, .pf-form.pf-labels-right .pf-note, .pf-form .pf-labels-right .pf-note, .pf-form .pf-labels-right.pf-note {
-	text-align: right;
-}
-.pf-form.pf-labels-left .pf-label, .pf-form .pf-labels-left .pf-label, .pf-form .pf-labels-left.pf-label, .pf-form.pf-labels-left .pf-note, .pf-form .pf-labels-left .pf-note, .pf-form .pf-labels-left.pf-note {
-	text-align: left;
-}
-.pf-form .pf-element .pf-note {
-	margin-top: .5em;
-	clear: left;
-	font-size: 70%;
-	opacity: .8;
-}
-.pf-form .pf-element .pf-required {
-	color: #f00;
-}
-.pf-form .pf-element .pf-group {
-	margin-left: 230px; /* Same as width of labels. */
-	display: block;
-}
-.pf-form .pf-element .pf-field, .pf-form .pf-buttons .pf-button {
-	float: none;
-	margin-left: 5px; /* Margin between inputs and labels. */
-}
-.pf-form .pf-element .pf-field.pf-full-width {
-	display: block;
-	margin-left: 235px; /* Width of labels + margin between inputs and labels. */
-}
-.pf-form .pf-buttons {
-	clear: both;
-	padding-bottom: 0;
-	padding-left: 215px; /* Width of labels + margin to inputs - button spacing. */
-}
-.pf-form .pf-buttons.pf-centered {
-	width: 100%;
-	padding-left: 0;
-	text-align: center;
-}
-.pf-form .pf-buttons .pf-button {
-	margin-left: 20px; /* Button spacing. */
-	margin-bottom: 10px;
+
+.pf-form:after,
+.pf-form fieldset:after {
+  display: block;
+  height: 0;
+  clear: both;
+  content: ".";
+  visibility: hidden;
 }
 
-@media (max-width: 720px) {
-	.pf-form .pf-element.pf-full-width .pf-full-width {
-		padding-right: .2em; /* Keep padded inputs from pushing out of their box. */
-	}
-	.pf-form .pf-element .pf-label, .pf-form .pf-element .pf-note {
-		float: none;
-		width: auto;
-		display: block;
-		margin-bottom: .1em;
-	}
-	.pf-form .pf-element .pf-group {
-		margin-left: 0;
-		display: block;
-	}
-	.pf-form .pf-element .pf-field.pf-full-width {
-		margin-left: 0;
-	}
-	.pf-form .pf-buttons {
-		padding-left: 0;
-	}
+.pf-form fieldset {
+  padding: 5.6px 10px 12px;
+  border: 1px solid #cccccc;
+}
+
+.pf-form fieldset.pf-group {
+  display: block;
+  margin-bottom: 15px;
+  clear: left;
+}
+
+.pf-form .pf-clearing {
+  height: 1px;
+  clear: both;
+}
+
+.pf-form .pf-element {
+  float: left;
+  padding-bottom: 15px;
+  clear: left;
+}
+
+.pf-form .pf-element.pf-full-width {
+  width: 100%;
+}
+
+.pf-form .pf-element .pf-label,
+.pf-form .pf-element .pf-note {
+  float: left;
+  width: 180px;
+}
+
+.pf-form .pf-element .pf-note {
+  margin-top: .5em;
+  clear: left;
+  font-size: 75%;
+  opacity: .8;
+}
+
+.pf-form .pf-element .pf-required {
+  color: #ff0000;
+}
+
+.pf-form .pf-element .pf-completed,
+.pf-form .pf-element.pf-completed .pf-required {
+  color: #00cc00;
+}
+
+.pf-form .pf-element .pf-field {
+  float: none;
+  margin-left: 5px;
+}
+
+.pf-form .pf-element .pf-field.pf-full-width {
+  display: block;
+  margin-left: 185px;
+}
+
+.pf-form .pf-element .pf-group {
+  display: block;
+  margin-left: 180px;
+}
+
+.pf-form .pf-element .pf-group .pf-note {
+  display: inline;
+  width: auto;
+  margin-top: 0;
+  clear: none;
+  text-align: left;
+}
+
+.pf-form.pf-labels-right .pf-label,
+.pf-form .pf-labels-right .pf-label,
+.pf-form.pf-labels-right .pf-note,
+.pf-form .pf-labels-right .pf-note {
+  text-align: right;
+}
+
+.pf-form .pf-labels-right.pf-note,
+.pf-form .pf-labels-right.pf-label {
+  text-align: right;
+}
+
+.pf-form.pf-labels-left .pf-label,
+.pf-form .pf-labels-left .pf-label,
+.pf-form.pf-labels-left .pf-note,
+.pf-form .pf-labels-left .pf-note {
+  text-align: left;
+}
+
+.pf-form .pf-labels-left.pf-note,
+.pf-form .pf-labels-left.pf-label {
+  text-align: left;
+}
+
+.pf-form .pf-buttons {
+  padding-bottom: 0;
+  padding-left: 165px;
+  clear: both;
+}
+
+.pf-form .pf-buttons.pf-centered {
+  width: 100%;
+  padding-left: 0;
+  text-align: center;
+}
+
+.pf-form .pf-buttons .pf-button {
+  float: none;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.pf-form .pf-heading {
+  width: 100%;
+  padding-bottom: 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.pf-form.pf-layout-block .pf-element .pf-label,
+.pf-form .pf-layout-block .pf-element .pf-label,
+.pf-form .pf-element.pf-layout-block .pf-label,
+.pf-form.pf-layout-block .pf-element .pf-note,
+.pf-form .pf-layout-block .pf-element .pf-note,
+.pf-form .pf-element.pf-layout-block .pf-note {
+  display: block;
+  float: none;
+  width: auto;
+  margin-bottom: 5px;
+}
+
+.pf-form.pf-layout-block .pf-element .pf-group,
+.pf-form .pf-layout-block .pf-element .pf-group,
+.pf-form .pf-element.pf-layout-block .pf-group {
+  margin-left: 0;
+}
+
+.pf-form.pf-layout-block .pf-element .pf-group .pf-note,
+.pf-form .pf-layout-block .pf-element .pf-group .pf-note,
+.pf-form .pf-element.pf-layout-block .pf-group .pf-note {
+  display: inline;
+  width: auto;
+  margin-top: 0;
+  clear: none;
+  text-align: left;
+}
+
+.pf-form.pf-layout-block .pf-element .pf-field,
+.pf-form .pf-layout-block .pf-element .pf-field,
+.pf-form .pf-element.pf-layout-block .pf-field {
+  float: none;
+  margin-left: 0;
+}
+
+.pf-form.pf-layout-block .pf-element .pf-field.pf-full-width,
+.pf-form .pf-layout-block .pf-element .pf-field.pf-full-width,
+.pf-form .pf-element.pf-layout-block .pf-field.pf-full-width {
+  display: block;
+  margin-left: 0;
+}
+
+.pf-form.pf-layout-block .pf-buttons,
+.pf-form .pf-layout-block .pf-buttons,
+.pf-form .pf-buttons.pf-layout-block {
+  padding-left: 0;
+  margin-left: -20px;
+}
+
+@media print {
+  .pf-form {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-form {
+    display: block;
+  }
+  .pf-form .pf-element {
+    float: none;
+    margin-bottom: 10px;
+    clear: left;
+  }
+  .pf-form .pf-element.pf-full-width .pf-full-width {
+    padding-right: .2em;
+  }
+  .pf-form .pf-element .pf-label,
+  .pf-form .pf-element .pf-note {
+    display: block;
+    float: none;
+    width: auto;
+    margin-bottom: .1em;
+    text-align: left;
+  }
+  .pf-form .pf-element .pf-field {
+    margin-top: 5px;
+  }
+  .pf-form .pf-element .pf-field.pf-full-width {
+    margin-left: 0;
+  }
+  .pf-form .pf-element .pf-group {
+    display: block;
+    margin-left: 0 !important;
+  }
+  .pf-form .pf-buttons {
+    padding-left: 0;
+  }
+  .pf-form .pf-buttons .pf-button {
+    margin-top: 5px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .pf-form .pf-element .pf-label,
+  .pf-form .pf-element .pf-note {
+    width: 180px;
+  }
+  .pf-form .pf-element .pf-field {
+    margin-left: 5px;
+  }
+  .pf-form .pf-element .pf-field.pf-full-width {
+    margin-left: 185px;
+  }
+  .pf-form .pf-element .pf-group {
+    margin-left: 180px;
+  }
+  .pf-form .pf-buttons {
+    padding-left: 170px;
+  }
+  .pf-form .pf-buttons .pf-button {
+    margin-left: 15px;
+  }
+  .pf-form.pf-layout-block .pf-buttons,
+  .pf-form .pf-layout-block .pf-buttons,
+  .pf-form .pf-buttons.pf-layout-block {
+    margin-left: -15px;
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1839px) {
+  .pf-form .pf-element .pf-label,
+  .pf-form .pf-element .pf-note {
+    width: 230px;
+  }
+  .pf-form .pf-element .pf-field {
+    margin-left: 5px;
+  }
+  .pf-form .pf-element .pf-field.pf-full-width {
+    margin-left: 235px;
+  }
+  .pf-form .pf-element .pf-group {
+    margin-left: 230px;
+  }
+  .pf-form .pf-buttons {
+    padding-left: 215px;
+  }
+  .pf-form .pf-buttons .pf-button {
+    margin-left: 20px;
+  }
+  .pf-form.pf-layout-block .pf-buttons,
+  .pf-form .pf-layout-block .pf-buttons,
+  .pf-form .pf-buttons.pf-layout-block {
+    margin-left: -20px;
+  }
+}
+
+@media (min-width: 1840px) {
+  .pf-form .pf-element .pf-label,
+  .pf-form .pf-element .pf-note {
+    width: 280px;
+  }
+  .pf-form .pf-element .pf-field {
+    margin-left: 10px;
+  }
+  .pf-form .pf-element .pf-field.pf-full-width {
+    margin-left: 290px;
+  }
+  .pf-form .pf-element .pf-group {
+    margin-left: 280px;
+  }
+  .pf-form .pf-buttons {
+    padding-left: 265px;
+  }
+  .pf-form .pf-buttons .pf-button {
+    margin-left: 25px;
+  }
+  .pf-form.pf-layout-block .pf-buttons,
+  .pf-form .pf-layout-block .pf-buttons,
+  .pf-form .pf-buttons.pf-layout-block {
+    margin-left: -25px;
+  }
 }

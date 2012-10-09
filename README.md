@@ -16,18 +16,16 @@ Getting Started
 Pines Steps comes with the following files:
 
 * `jquery.psteps.js` & `jquery.psteps.min.js` (Minified) - The main JavaScript.
-* `jquery.psteps.default.css` - The main stylesheet.
 
 So here's how you'd include them all:
 
 	<script type="text/javascript" src="jquery.psteps.min.js"></script>
-	<link href="jquery.psteps.default.css" media="all" rel="stylesheet" type="text/css" />
 
 Now you can use Pines Steps like this:
 
 	<script type="text/javascript">
 	$(function(){
-		...
+		$('#my_steps').psteps();
 	});
 	</script>
 
