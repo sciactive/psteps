@@ -47,16 +47,16 @@
 			psteps.get_max_height = function(elements){
 				var max = -1;
 				elements.each(function() {
-					var h = $(this).height(); 
+					var h = $(this).height();
 					max = h > max ? h : max;
 				});
 				return max;
 			}
-			
+
 			if (!psteps.step_order) {
 				psteps.find('.step-order').hide();
 			}
-			
+
 			// Function that takes step names from titles and makes a heading in
 			// the step content.
 			psteps.make_step_content_headings = function() {
@@ -76,7 +76,7 @@
 					r++;
 				});
 			}
-			
+
 			// Window Resize
 			if (psteps.content_height_equalize || psteps.steps_height_equalize || psteps.steps_width_percentage || psteps.shrink_step_names) {
 				// Get original max height for equalizing title heights.
@@ -126,7 +126,7 @@
 							}, 200);
 						}
 					}
-					
+
 					// Equalize title heights
 					if (psteps.steps_height_equalize) {
 						var titles = psteps.find('.step-title');
@@ -134,7 +134,7 @@
 						var max = psteps.get_max_height(titles);
 						titles.css('min-height', max);
 					}
-					
+
 					// Equalize content heights
 					if (psteps.content_height_equalize) {
 						setTimeout(function(){
@@ -256,7 +256,7 @@
 				var show_step;
 				var show_title;
 
-				if (step_num > num_steps) 
+				if (step_num > num_steps)
 					return;
 
 				psteps.find('.step-content').each(function(){
@@ -276,7 +276,7 @@
 				if (!show_step.hasClass('step-loaded')) {
 					psteps.steps_onload.call(show_step);
 				}
-				
+
 				psteps.steps_show.call(show_step);
 
 				last_active_title.removeClass('last-active');
@@ -292,7 +292,7 @@
 				if (psteps.traverse_titles == 'visited') {
 					active_title.css('cursor', 'pointer');
 				}
-				
+
 				if (first_time)
 					first_time = false;
 				else
@@ -341,7 +341,7 @@
 						}
 					});
 				} else {
-					// this is for never, which this is actually super useful. 
+					// this is for never, which this is actually super useful.
 					// It allows the user to click on the current step, which
 					// may trigger the alert for why a step is showing a warning
 					// or an error. Because the "next" button on errors will
@@ -406,9 +406,9 @@
 				all_prev = error.prevAll('.step-title');
 				num = all_prev.length + 1;
 				psteps.go_to_step(num);
-			} else 
+			} else
 				psteps.go_to_step(psteps.step_start);
-				
+
 
 			// Event Triggers
 			back_button.click(function(){
@@ -420,7 +420,7 @@
 			psteps.bind('validate_psteps', function(){
 				psteps.check_progress_titles();
 			});
-			
+
 			// Loads the call back for what happens after steps, probably
 			// when a submit button is pressed.
 			psteps.bind('load_after_steps', function(){
@@ -431,7 +431,7 @@
 			all_steps.bind('psteps_step_error', function(){
 				psteps.trigger_error($(this));
 			});
-		
+
 			// When triggered on a step, it will go there, despite traversal settings.
 			all_titles.bind('go_to_step', function(){
 				var cur_step = $(this);
@@ -439,7 +439,7 @@
 				var num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
-			
+
 			// When triggered on psteps object, it goes to the first incomplete step.
 			psteps.bind('go_to_first_incomplete', function(){
 				var cur_step = psteps.find('.step-title.btn-info:first');
@@ -447,7 +447,7 @@
 				var num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
-			
+
 			// When triggered on psteps object, it goes to the first step with an error.
 			psteps.bind('go_to_first_warning', function(){
 				var cur_step = psteps.find('.step-title.step-warning:first');
@@ -455,7 +455,7 @@
 				var num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
-			
+
 			// When triggered on psteps object, it goes to the first step with an error.
 			psteps.bind('go_to_first_error', function(){
 				var cur_step = psteps.find('.step-title.step-error:first');
@@ -546,7 +546,7 @@
 		// Go to the first step with an error
 		start_error_step: false,
 		// Function to determine that progress has been made (For titles
-		// and for progression). This function received an argument 'step' which is 
+		// and for progression). This function received an argument 'step' which is
 		// The current step it's checking for validation.
 		// Making it really easy to do something like:
 		// return (step.find('textarea').val() != '')
@@ -595,8 +595,6 @@
 		// In the function you could write an ajax call to submit the form, but then
 		// display to the user a message, maybe depending on the success or failure
 		// of the ajax call to save the form contents.
-		load_after_steps: function(){
-			
-		}
+		load_after_steps: function(){}
 	};
 })(jQuery);
