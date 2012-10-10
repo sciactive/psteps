@@ -42,6 +42,7 @@
 			var toggle_buttons = psteps.find('.next-button, .submit-button');
 			var num_steps = psteps.find('.step-title').length;
 			var first_time = true;
+			var validating = false;
 
 
 			psteps.get_max_height = function(elements){
@@ -276,14 +277,16 @@
 				if (!show_step.hasClass('step-loaded')) {
 					psteps.steps_onload.call(show_step);
 				}
-
-				psteps.steps_show.call(show_step);
+				
+				psteps.steps_hide.call(active_step);
 
 				last_active_title.removeClass('last-active');
 				last_active_content.removeClass('last-active');
 
 				active_step.hide().removeClass('step-active').addClass('last-active');
 				show_step.show().addClass('step-active step-visited step-loaded');
+
+				psteps.steps_show.call(show_step);
 
 				active_title.removeClass('step-active').addClass('disabled last-active');
 				show_title.addClass('step-active step-visited').removeClass('disabled');
@@ -315,15 +318,25 @@
 
 			// Function for traversing steps through the titles.
 			psteps.traverse_titles_function = function(){
-				if (psteps.traverse_titles == 'always') {
+				psteps.change_traverse(psteps.traverse_titles);
+			}
+			
+			// Function to set or change the way titles are traversed. Used by the traver_titles_function
+			// and the binding events that can be triggered to change the type.
+			psteps.change_traverse = function(type) {
+				if (type == 'always'){
 					var step_titles = psteps.find('.step-title');
+					step_titles.unbind('click')
 					step_titles.click(function(){
 						var clicked_title = $(this);
 						var all_prev = clicked_title.prevAll('.step-title');
 						var click_num = all_prev.length + 1;
 						psteps.go_to_step(click_num);
 					}).css('cursor', 'pointer');
-				} else if (psteps.traverse_titles == 'visited') {
+				} else if (type == 'visited') {
+					var titles_visited = psteps.find('.step-title.step-visited');
+					titles_visited.css('cursor', 'pointer');
+					psteps.off('click', '.step-title.step-visited');
 					psteps.on('click', '.step-title.step-visited', function(){
 						var clicked_title = $(this);
 						// if the title is the "next" title from the current view,
@@ -340,7 +353,9 @@
 							psteps.go_to_step(click_num);
 						}
 					});
-				} else {
+				} else if (type == 'never') {
+					step_titles = psteps.find('.step-title');
+					step_titles.css('cursor', 'default');
 					// this is for never, which this is actually super useful.
 					// It allows the user to click on the current step, which
 					// may trigger the alert for why a step is showing a warning
@@ -348,12 +363,13 @@
 					// trigger a click on this step (which shows the error message)
 					// from the validation rule. This allows for unique error
 					// messages to show on the next button.
+					psteps.off('click', '.step-title.step-active')
 					psteps.on('click', '.step-title.step-active', function(){
 						var clicked_title = $(this);
 						var all_prev = clicked_title.prevAll('.step-title');
 						var click_num = all_prev.length + 1;
 						psteps.go_to_step(click_num);
-					})
+					});
 				}
 			}
 
@@ -418,7 +434,23 @@
 			// Extremely useful for instant validation, for example, after a
 			// user has completed an input on a step.
 			psteps.bind('validate_psteps', function(){
+				validating = true;
 				psteps.check_progress_titles();
+			});
+			
+			// An event that triggers a change on how titles will be traversed.
+			psteps.bind('traverse_never', function(){
+				psteps.change_traverse('never');
+			});
+			
+			// An event that triggers a change on how titles will be traversed.
+			psteps.bind('traverse_always', function(){
+				psteps.change_traverse('always');
+			});
+			
+			// An event that triggers a change on how titles will be traversed.
+			psteps.bind('traverse_visited', function(){
+				psteps.change_traverse('visited');
 			});
 
 			// Loads the call back for what happens after steps, probably
@@ -468,14 +500,19 @@
 			toggle_buttons.click(function(e){
 				var this_button = $(this);
 				// Just to make sure that the validation ran and titles are correct run check titles.
-				psteps.check_progress_titles();
+				if (!validating)
+					psteps.check_progress_titles();
+				else
+					validating = false;
 				var active_title = psteps.find('.step-title.step-active');
-				if (active_title.hasClass('step-error') && psteps.validate_errors) {
+				if (active_title.hasClass('step-error') && psteps.validate_errors && !psteps.validate_next_step) {
 					if (psteps.validate_use_error_msg) {
 						alert(psteps.validate_error_msg)
 					} else {
 						active_title.click();
 					}
+				} else if (active_title.hasClass('step-error') && psteps.validate_next_step && !psteps.ignore_errors_on_next) {
+					//do nothing.
 				} else if (active_title.hasClass('step-error') && psteps.ignore_errors_on_next) {
 					psteps.next_step_function();
 				} else if (this_button.hasClass('btn-success')) {
@@ -537,8 +574,10 @@
 		// when a step is loaded, or rather viewed the first time. (First time only).
 		steps_onload: function(){},
 		// The steps_show option is similar to the steps_onload function except that
-		// it runs every time you go to a step.
+		// it runs every time you go to a step. Be aware that the step shows and then calls this function.
 		steps_show: function(){},
+		// Execute this function right before we hide the active step (hiding this step to show another)
+		steps_hide: function(){},
 		// Go to the first incomplete step
 		start_incomplete_step: false,
 		// Go to the first step with a warning
