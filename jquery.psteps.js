@@ -298,8 +298,10 @@
 
 				if (first_time)
 					first_time = false;
-				else
+				else if (!validating)
 					psteps.check_progress_titles();
+				else 
+					validating = false;
 			}
 
 			// Function to go to the next step (calls go to step)
