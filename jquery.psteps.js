@@ -26,66 +26,56 @@
 			// Add the psteps class.
 			psteps.addClass("steps-transformed");
 
-			psteps.extend(psteps, opts);
+			psteps.opts = opts;
 
 			// All arrays and objects in our options need to be copied,
 			// since they just have a pointer to the defaults if we don't.
 			//psteps.example_property = psteps.example_property.slice();
 
 			// Step submit and next button variables
-			var all_steps = psteps.find('.step-content');
-			var all_titles = psteps.find('.step-title');
-			var step_names = psteps.find('.step-name');
-			var next_button = psteps.find('.next-button');
-			var back_button = psteps.find('.back-button');
-			var send_button = psteps.find('.submit-button');
-			var toggle_buttons = psteps.find('.next-button, .submit-button');
-			var num_steps = psteps.find('.step-title').length;
-			var first_time = true;
-			var validating = false;
+			var all_steps = psteps.find('.step-content'),
+				all_titles = psteps.find('.step-title'),
+				step_names = psteps.find('.step-name'),
+				next_button = psteps.find('.next-button'),
+				back_button = psteps.find('.back-button'),
+				send_button = psteps.find('.submit-button'),
+				toggle_buttons = psteps.find('.next-button, .submit-button'),
+				num_steps = psteps.find('.step-title').length,
+				first_time = true,
+				validating = false;
 
 
 			psteps.get_max_height = function(elements){
 				var max = -1;
-				elements.each(function() {
+				elements.each(function(){
 					var h = $(this).height();
 					max = h > max ? h : max;
 				});
 				return max;
 			}
 
-			if (!psteps.step_order) {
+			if (!opts.step_order)
 				psteps.find('.step-order').hide();
-			}
 
 			// Function that takes step names from titles and makes a heading in
 			// the step content.
 			psteps.make_step_content_headings = function() {
-				var r = 1;
-				psteps.find('.step-name').each(function(){
-					var c = 1;
-					var step_name = $(this);
-					psteps.find('.step-content').each(function(){
-						if (r == c) {
-							var step_content = $(this);
-							if (step_name.length == 1) {
-								step_content.prepend('<div class="step-content-name"><h4>'+step_name.html()+'</h4><hr/></div>')
-							}
-						}
-						c++;
-					})
-					r++;
+				psteps.find('.step-title').each(function(r){
+					var step_name = $(this).find('.step-name'),
+						step_content = psteps.find('.step-content').eq(r);
+					if (step_name.length == 1)
+						step_content.prepend('<div class="step-content-name"><h4>'+step_name.html()+'</h4><hr/></div>');
 				});
-			}
+			};
 
 			// Window Resize
-			if (psteps.content_height_equalize || psteps.steps_height_equalize || psteps.steps_width_percentage || psteps.shrink_step_names) {
+			if (opts.content_height_equalize || opts.steps_height_equalize || opts.steps_width_percentage || opts.shrink_step_names) {
 				// Get original max height for equalizing title heights.
-				if (psteps.steps_height_equalize) {
-					var titles = psteps.find('.step-title');
-					var original_height = psteps.get_max_height(titles);
+				if (opts.steps_height_equalize) {
+					var titles = psteps.find('.step-title'),
+						original_height = psteps.get_max_height(titles);
 				}
-				if (psteps.content_height_equalize) {
+				if (opts.content_height_equalize) {
 					// going to use a time out here too, so the height is fully determined.
 					var step_content = psteps.find('.step-content');
 					step_content.addClass('clearfix');
@@ -93,9 +83,9 @@
 				}
 				$(window).resize(function(){
 					// Ensure horizontal step widths always look good (responsive/mobile)
-					if (psteps.steps_width_percentage) {
+					if (opts.steps_width_percentage) {
 						var percentage = (100 / num_steps) - 1;
-						if ($(window).width() < parseInt(psteps.alter_width_at_viewport) )
+						if ($(window).width() < parseInt(opts.alter_width_at_viewport) )
 							psteps.find('.step-title').css({
 								'width' : percentage+'%',
 								'padding-left' : '0px',
@@ -104,9 +94,9 @@
 					}
 
 					// When viewport is small, do not display step names. Show numbers only.
-					if (psteps.shrink_step_names) {
+					if (opts.shrink_step_names) {
 						// Time outs needed so that the following can remove content names.
-						if ($(window).width() <=  parseInt(psteps.alter_names_at_viewport) ) {
+						if ($(window).width() <=  parseInt(opts.alter_names_at_viewport) ) {
 							setTimeout(function(){
 								psteps.find('.step-content-name').remove();
 								psteps.find('.step-name').hide();
@@ -116,11 +106,11 @@
 						} else {
 							setTimeout(function(){
 								psteps.find('.step-content-name').remove();
-								if (!psteps.step_order)
+								if (!opts.step_order)
 									psteps.find('.step-order').hide();
-								if (psteps.step_names)
+								if (opts.step_names)
 									psteps.find('.step-name').show();
-								if (!psteps.content_headings)
+								if (!opts.content_headings)
 									psteps.find('.step-content-name').remove();
 								else
 									psteps.make_step_content_headings();
@@ -129,7 +119,7 @@
 					}
 
 					// Equalize title heights
-					if (psteps.steps_height_equalize) {
+					if (opts.steps_height_equalize) {
 						var titles = psteps.find('.step-title');
 						titles.css('min-height', original_height);
 						var max = psteps.get_max_height(titles);
@@ -137,7 +127,7 @@
 					}
 
 					// Equalize content heights
-					if (psteps.content_height_equalize) {
+					if (opts.content_height_equalize) {
 						setTimeout(function(){
 							var step_content = psteps.find('.step-content');
 							step_content.css('min-height', original_content_height);
@@ -151,40 +141,32 @@
 			// Function for adjusting progress title bars on textarea change.
 			// All Validation happens here.
 			psteps.check_progress_titles = function(){
-				var i = 1;
-				psteps.find('.step-content').each(function(){
-					var r = 1;
-					var cur_step = $(this);
-					var class_to_add = 'pstep'+i;
+				psteps.find('.step-content').each(function(i){
+					var cur_step = $(this),
+						class_to_add = 'pstep'+(i+1);
 					cur_step.addClass(class_to_add);
-					psteps.find('.step-title').each(function(){
-						if (r == i) {
-							// this title matches the textarea
-							var title = $(this);
-							// Titles are always colored to indicate progress for present/past steps
-							// If you can click titles, colored progress will indicate for future steps too.
-							if ((psteps.traverse_titles == 'visited' && title.hasClass('step-visited')) || (psteps.traverse_titles == 'never' && title.hasClass('step-visited')) || psteps.traverse_titles == 'always') {
-								var validate_result = psteps.validation_rule.call(cur_step);
-								if (validate_result == 'warning') {
-									title.removeClass('step-error btn-info btn-success btn-warning btn-danger').addClass('step-warning');
-									psteps.trigger_error(cur_step);
-								} else if (validate_result == 'error') {
-									title.removeClass('step-warning btn-info btn-success btn-warning btn-danger').addClass('step-error');
-									psteps.trigger_error(cur_step);
-								} else if (validate_result) {
-									title.removeClass('step-warning btn-info btn-warning btn-danger step-error').addClass('btn-success')
-									if (psteps.check_marks)
-										title.find('i.step-mark').remove().end().prepend('<i class="icon-ok step-mark"></i> ');
-								} else if (!validate_result) {
-									title.removeClass('step-warning btn-info btn-success btn-danger btn-warning step-error')
-										.addClass('btn-info')
-										.find('i.step-mark').remove();
-								}
-							}
+					// this title matches the content
+					var title = psteps.find('.step-title').eq(i);
+					// Titles are always colored to indicate progress for present/past steps
+					// If you can click titles, colored progress will indicate for future steps too.
+					if ((opts.traverse_titles == 'visited' && title.hasClass('step-visited')) || (opts.traverse_titles == 'never' && title.hasClass('step-visited')) || opts.traverse_titles == 'always') {
+						var validate_result = opts.validation_rule.call(cur_step);
+						if (validate_result == 'warning') {
+							title.removeClass('step-error btn-info btn-success btn-warning btn-danger').addClass('step-warning');
+							psteps.trigger_error(cur_step);
+						} else if (validate_result == 'error') {
+							title.removeClass('step-warning btn-info btn-success btn-warning btn-danger').addClass('step-error');
+							psteps.trigger_error(cur_step);
+						} else if (validate_result) {
+							title.removeClass('step-warning btn-info btn-warning btn-danger step-error').addClass('btn-success')
+							if (opts.check_marks)
+								title.find('i.step-mark').remove().end().prepend('<i class="icon-ok step-mark"></i> ');
+						} else if (!validate_result) {
+							title.removeClass('step-warning btn-info btn-success btn-danger btn-warning step-error')
+								.addClass('btn-info')
+								.find('i.step-mark').remove();
 						}
-						r++;
-					});
-					i++;
+					}
 				});
 				psteps.toggle_buttons_function();
 			}
@@ -210,7 +192,7 @@
 					toggle_buttons.removeClass('btn-success btn-info').addClass('btn-danger');
 
 				// Check submit button for all steps if necessary
-				if (psteps.validate_submit_all_steps) {
+				if (opts.validate_submit_all_steps) {
 					var incomplete;
 					all_titles.each(function(){
 						var invalid_before = incomplete;
@@ -218,7 +200,7 @@
 							incomplete = true;
 						if ($(this).hasClass('step-warning') && !invalid_before)
 							incomplete = false;
-						if ($(this).hasClass('step-error') && !invalid_before && psteps.ignore_errors_on_submit)
+						if ($(this).hasClass('step-error') && !invalid_before && opts.ignore_errors_on_submit)
 							incomplete = false;
 					});
 					if (incomplete)
@@ -226,10 +208,10 @@
 				}
 
 				// Back Button
-				if (psteps.back) {
-					if (psteps.find('.step-title').first().hasClass('step-active')) {
+				if (opts.back) {
+					if (psteps.find('.step-title').first().hasClass('step-active'))
 						back_button.hide();
-					} else {
+					else {
 						var previous_title = psteps.find('.step-title.step-active').prevAll('.step-title:first');
 						if (previous_title.hasClass('btn-info'))
 							back_button.removeClass('btn-success btn-warning btn-danger').addClass('btn-info').css('cursor', 'pointer');
@@ -242,43 +224,39 @@
 
 						back_button.show();
 					}
-				} else {
+				} else
 					back_button.hide();
-				}
 			}
 
 			// Function to go to a certain step
 			psteps.go_to_step = function(step_num){
-				var c = 1;
-				var last_active_title = psteps.find('.step-title.last-active');
-				var last_active_content = psteps.find('.step-content.last-active');
-				var active_step = psteps.find('.step-content.step-active');
-				var active_title = psteps.find('.step-title.step-active');
-				var show_step;
-				var show_title;
+				var c = 1,
+					last_active_title = psteps.find('.step-title.last-active'),
+					last_active_content = psteps.find('.step-content.last-active'),
+					active_step = psteps.find('.step-content.step-active'),
+					active_title = psteps.find('.step-title.step-active'),
+					show_step,
+					show_title;
 
 				if (step_num > num_steps)
 					return;
 
 				psteps.find('.step-content').each(function(){
-					if (c == step_num) {
+					if (c == step_num)
 						show_step = $(this);
-					}
 					c++;
 				});
 				c = 1;
 				psteps.find('.step-title').each(function(){
-					if (c == step_num) {
+					if (c == step_num)
 						show_title = $(this);
-					}
 					c++;
 				});
 
-				if (!show_step.hasClass('step-loaded')) {
-					psteps.steps_onload.call(show_step);
-				}
-				
-				psteps.steps_hide.call(active_step);
+				if (!show_step.hasClass('step-loaded'))
+					opts.steps_onload.call(show_step);
+
+				opts.steps_hide.call(active_step);
 
 				last_active_title.removeClass('last-active');
 				last_active_content.removeClass('last-active');
@@ -286,43 +264,42 @@
 				active_step.hide().removeClass('step-active').addClass('last-active');
 				show_step.show().addClass('step-active step-visited step-loaded');
 
-				psteps.steps_show.call(show_step);
+				opts.steps_show.call(show_step);
 
 				active_title.removeClass('step-active').addClass('disabled last-active');
 				show_title.addClass('step-active step-visited').removeClass('disabled');
 
 				// If visisted traversing,
-				if (psteps.traverse_titles == 'visited') {
+				if (opts.traverse_titles == 'visited')
 					active_title.css('cursor', 'pointer');
-				}
 
 				if (first_time)
 					first_time = false;
 				else if (!validating)
 					psteps.check_progress_titles();
-				else 
+				else
 					validating = false;
 			}
 
 			// Function to go to the next step (calls go to step)
 			psteps.next_step_function = function(){
-				var preceeding_titles = psteps.find('.step-title.step-active').prevAll('.step-title');
-				var num = preceeding_titles.length + 2;
+				var preceeding_titles = psteps.find('.step-title.step-active').prevAll('.step-title'),
+					num = preceeding_titles.length + 2;
 				psteps.go_to_step(num);
 			}
 
 			// Function to go to the next step (calls go to step)
 			psteps.previous_step_function = function(){
-				var preceeding_titles = psteps.find('.step-title.step-active').prevAll('.step-title');
-				var num = preceeding_titles.length;
+				var preceeding_titles = psteps.find('.step-title.step-active').prevAll('.step-title'),
+					num = preceeding_titles.length;
 				psteps.go_to_step(num);
 			}
 
 			// Function for traversing steps through the titles.
 			psteps.traverse_titles_function = function(){
-				psteps.change_traverse(psteps.traverse_titles);
+				psteps.change_traverse(opts.traverse_titles);
 			}
-			
+
 			// Function to set or change the way titles are traversed. Used by the traver_titles_function
 			// and the binding events that can be triggered to change the type.
 			psteps.change_traverse = function(type) {
@@ -330,9 +307,9 @@
 					var step_titles = psteps.find('.step-title');
 					step_titles.unbind('click')
 					step_titles.click(function(){
-						var clicked_title = $(this);
-						var all_prev = clicked_title.prevAll('.step-title');
-						var click_num = all_prev.length + 1;
+						var clicked_title = $(this),
+							all_prev = clicked_title.prevAll('.step-title'),
+							click_num = all_prev.length + 1;
 						psteps.go_to_step(click_num);
 					}).css('cursor', 'pointer');
 				} else if (type == 'visited') {
@@ -350,8 +327,8 @@
 						else if (clicked_title.nextAll('.step-title:first').hasClass('step-active'))
 							psteps.previous_step_function();
 						else {
-							var all_prev = clicked_title.prevAll('.step-title');
-							var click_num = all_prev.length + 1;
+							var all_prev = clicked_title.prevAll('.step-title'),
+								click_num = all_prev.length + 1;
 							psteps.go_to_step(click_num);
 						}
 					});
@@ -367,9 +344,9 @@
 					// messages to show on the next button.
 					psteps.off('click', '.step-title.step-active')
 					psteps.on('click', '.step-title.step-active', function(){
-						var clicked_title = $(this);
-						var all_prev = clicked_title.prevAll('.step-title');
-						var click_num = all_prev.length + 1;
+						var clicked_title = $(this),
+							all_prev = clicked_title.prevAll('.step-title'),
+							click_num = all_prev.length + 1;
 						psteps.go_to_step(click_num);
 					});
 				}
@@ -378,9 +355,9 @@
 
 			// Trigger Error in Title
 			psteps.trigger_error = function(the_step) {
-				var step_num = the_step.prevAll('.step-content').length + 1;
-				var title;
-				var c = 1;
+				var step_num = the_step.prevAll('.step-content').length + 1,
+					title,
+					c = 1;
 				psteps.find('.step-title').each(function(){
 					if (c == step_num)
 						title = $(this);
@@ -388,11 +365,11 @@
 				});
 				if (title.hasClass('step-warning')) {
 					title.removeClass('btn-info btn-success').addClass('btn-warning')
-					if (psteps.check_marks)
+					if (opts.check_marks)
 						title.find('i.step-mark').remove().end().prepend('<i class="icon-remove step-mark"></i> ');
 				} else if (title.hasClass('step-error')) {
 					title.removeClass('btn-info btn-success').addClass('btn-danger')
-					if (psteps.check_marks)
+					if (opts.check_marks)
 						title.find('i.step-mark').remove().end().prepend('<i class="icon-remove step-mark"></i> ');
 				}
 			}
@@ -400,32 +377,32 @@
 			// Load necessary classes
 			all_steps.hide().first().addClass('step-visited step-active').show();
 			all_titles.addClass('disabled btn').first().addClass('step-visited step-active').removeClass('disabled');
-			if (!psteps.step_names)
+			if (!opts.step_names)
 				step_names.hide();
 			// Load functions
 			psteps.traverse_titles_function();
 			psteps.check_progress_titles();
-			if (psteps.content_headings)
+			if (opts.content_headings)
 				psteps.make_step_content_headings();
 
 			// Load the default step
-			if (psteps.start_incomplete_step) {
-				var incomplete = psteps.find('.step-title.btn-info').first();
-				var all_prev = incomplete.prevAll('.step-title');
-				var num = all_prev.length + 1;
+			if (opts.start_incomplete_step) {
+				var incomplete = psteps.find('.step-title.btn-info').first(),
+					all_prev = incomplete.prevAll('.step-title'),
+					num = all_prev.length + 1;
 				psteps.go_to_step(num);
-			} else if (psteps.start_warning_step) {
+			} else if (opts.start_warning_step) {
 				var warning = psteps.find('.step-title.step-warning').first();
 				all_prev = warning.prevAll('.step-title');
 				num = all_prev.length + 1;
 				psteps.go_to_step(num);
-			} else if (psteps.start_error_step) {
+			} else if (opts.start_error_step) {
 				var error = psteps.find('.step-title.step-error').first();
 				all_prev = error.prevAll('.step-title');
 				num = all_prev.length + 1;
 				psteps.go_to_step(num);
 			} else
-				psteps.go_to_step(psteps.step_start);
+				psteps.go_to_step(opts.step_start);
 
 
 			// Event Triggers
@@ -439,17 +416,17 @@
 				validating = true;
 				psteps.check_progress_titles();
 			});
-			
+
 			// An event that triggers a change on how titles will be traversed.
 			psteps.bind('traverse_never', function(){
 				psteps.change_traverse('never');
 			});
-			
+
 			// An event that triggers a change on how titles will be traversed.
 			psteps.bind('traverse_always', function(){
 				psteps.change_traverse('always');
 			});
-			
+
 			// An event that triggers a change on how titles will be traversed.
 			psteps.bind('traverse_visited', function(){
 				psteps.change_traverse('visited');
@@ -458,7 +435,7 @@
 			// Loads the call back for what happens after steps, probably
 			// when a submit button is pressed.
 			psteps.bind('load_after_steps', function(){
-				psteps.load_after_steps.call(psteps);
+				opts.load_after_steps.call(psteps);
 			});
 
 			// Have yet to find a use for this, but maybe it will be to someone.
@@ -468,33 +445,33 @@
 
 			// When triggered on a step, it will go there, despite traversal settings.
 			all_titles.bind('go_to_step', function(){
-				var cur_step = $(this);
-				var preceeding_titles = cur_step.prevAll('.step-title');
-				var num = preceeding_titles.length + 1;
+				var cur_step = $(this),
+					preceeding_titles = cur_step.prevAll('.step-title'),
+					num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
 
 			// When triggered on psteps object, it goes to the first incomplete step.
 			psteps.bind('go_to_first_incomplete', function(){
-				var cur_step = psteps.find('.step-title.btn-info:first');
-				var preceeding_titles = cur_step.prevAll('.step-title');
-				var num = preceeding_titles.length + 1;
+				var cur_step = psteps.find('.step-title.btn-info:first'),
+					preceeding_titles = cur_step.prevAll('.step-title'),
+					num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
 
 			// When triggered on psteps object, it goes to the first step with an error.
 			psteps.bind('go_to_first_warning', function(){
-				var cur_step = psteps.find('.step-title.step-warning:first');
-				var preceeding_titles = cur_step.prevAll('.step-title');
-				var num = preceeding_titles.length + 1;
+				var cur_step = psteps.find('.step-title.step-warning:first'),
+					preceeding_titles = cur_step.prevAll('.step-title'),
+					num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
 
 			// When triggered on psteps object, it goes to the first step with an error.
 			psteps.bind('go_to_first_error', function(){
-				var cur_step = psteps.find('.step-title.step-error:first');
-				var preceeding_titles = cur_step.prevAll('.step-title');
-				var num = preceeding_titles.length + 1;
+				var cur_step = psteps.find('.step-title.step-error:first'),
+					preceeding_titles = cur_step.prevAll('.step-title'),
+					num = preceeding_titles.length + 1;
 				psteps.go_to_step(num);
 			});
 
@@ -507,24 +484,23 @@
 				else
 					validating = false;
 				var active_title = psteps.find('.step-title.step-active');
-				if (active_title.hasClass('step-error') && psteps.validate_errors && !psteps.validate_next_step) {
-					if (psteps.validate_use_error_msg) {
-						alert(psteps.validate_error_msg)
-					} else {
+				if (active_title.hasClass('step-error') && opts.validate_errors && !opts.validate_next_step) {
+					if (opts.validate_use_error_msg)
+						alert(opts.validate_error_msg)
+					else
 						active_title.click();
-					}
-				} else if (active_title.hasClass('step-error') && psteps.validate_next_step && !psteps.ignore_errors_on_next) {
+				} else if (active_title.hasClass('step-error') && opts.validate_next_step && !opts.ignore_errors_on_next) {
 					//do nothing.
-				} else if (active_title.hasClass('step-error') && psteps.ignore_errors_on_next) {
+				} else if (active_title.hasClass('step-error') && opts.ignore_errors_on_next)
 					psteps.next_step_function();
-				} else if (this_button.hasClass('btn-success')) {
+				else if (this_button.hasClass('btn-success'))
 					psteps.next_step_function();
-				} else if (this_button.hasClass('submit-button') && (psteps.validate_submit_all_steps || psteps.validate_next_step)) {
-					if (psteps.use_before_submit)
-						alert(psteps.before_submit);
+				else if (this_button.hasClass('submit-button') && (opts.validate_submit_all_steps || opts.validate_next_step)) {
+					if (opts.use_before_submit)
+						alert(opts.before_submit);
 					e.preventDefault();
-				} else if (psteps.validate_next_step && psteps.use_before_next)
-						alert(psteps.before_next);
+				} else if (opts.validate_next_step && opts.use_before_next)
+						alert(opts.before_next);
 				else
 					psteps.next_step_function();
 			});
@@ -598,9 +574,7 @@
 		// alert error message in place of the default by setting validate_use_error_msg
 		// to false. That way you can create custom alert messages and have them work
 		// as the alert when clicking next.
-		validation_rule: function(){
-			return true;
-		},
+		validation_rule: function(){ return true; },
 		// Validate the current step before advancing to the next step. must receive a return
 		// true from the validation rule.
 		validate_next_step: true,

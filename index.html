@@ -44,6 +44,7 @@
 	<!-- JavaScript Source Formatting -->
 	<link href="includes/google-code-prettify/prettify.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="includes/google-code-prettify/prettify.js"></script>
+	<script type="text/javascript" src="includes/google-code-prettify/lang-css.js"></script>
 	<script type="text/javascript" src="includes/beautify-html.js"></script>
 	<script type="text/javascript" src="includes/beautify-css.js"></script>
 	<script type="text/javascript" src="includes/beautify.js"></script>
@@ -87,13 +88,13 @@
 		.btn-toolbar .btn-group {
 			vertical-align: middle;
 		}
-		
+
 		.step-title {
 			min-height: 20px;
 			float:left;
 			border-radius: 0;
 		}
-		
+
 		/*	Vertical Styles */
 		#psteps_simple .step-title, #psteps_add_validation .step-title, #psteps_strict .step-title, #psteps_conditional_validation .step-title {
 			padding-left: 0;
@@ -102,38 +103,38 @@
 			min-height: 28px;
 			display: block;
 		}
-		
+
 		#psteps_simple .step-title .step-order, #psteps_add_validation .step-title .step-order, #psteps_strict .step-title .step-order, #psteps_conditional_validation .step-title .step-order {
 			float: left;
 			margin-left: 12%;
 		}
-		
+
 		#psteps_simple .step-title .step-name, #psteps_add_validation .step-title .step-name, #psteps_strict .step-title .step-name, #psteps_conditional_validation .step-title .step-name {
 			float: left;
 			margin-left: 2%;
 		}
-		
+
 		#psteps_simple .step-title [class^="icon-"], #psteps_add_validation .step-title [class^="icon-"], #psteps_strict .step-title [class^="icon-"], #psteps_conditional_validation .step-title [class^="icon-"] {
 			float: right;
 			margin-right: 7%;
 			margin-top: 2%;
 		}
-		
+
 		#psteps_strict .step-title .step-name, #psteps_add_validation .step-title .step-name {
 			margin-left: 12%;
 		}
-		
+
 		.psteps_circle_titles .circle-step {
-			width: 10px; 
-			height: 10px; 
+			width: 10px;
+			height: 10px;
 			padding: 5px;
-			line-height: 10px; 
-			font-size: 10px; 
+			line-height: 10px;
+			font-size: 10px;
 			border-radius: 500px 500px 500px 500px;
 			min-height:10px;
 			float:left;
 		}
-		
+
 		.psteps_circle_titles .step-line {
 			border-bottom: 1px solid #ddd;
 			display: inline-block;
@@ -141,19 +142,19 @@
 			float:left;
 			margin-top:10px;
 		}
-		
+
 		.psteps_circle_contents {
 			background: #F9F9F9;
 			border: 1px dashed #CCCCCC;
 			margin: 15px 0 0;
 			padding: 20px;
 		}
-		
+
 		.next-button, .submit-button, .back-button {
 			float:right;
 			margin:3px;
 		}
-		
+
 		.colored-box {
 			display:inline-block;
 			cursor:pointer;
@@ -161,11 +162,10 @@
 			height:50px;
 			opacity: .5;
 		}
-		
+
 		.btn-group {
 			margin: 10px;
 		}
-		
 	</style>
 	<script type="text/javascript">
 		$(function(){
@@ -176,13 +176,13 @@
 					text: message
 				});
 			};
-			
+
 			// This is how to change the default settings for the entire page.
 			//$.psteps.defaults.xxxx = "xxxx";
 
 			// ----- put initial example here.
-			
-			
+
+
 			var transformed = false;
 			$('#after_stepsify').hide();
 			$('#pstepsify').click(function(){
@@ -194,7 +194,7 @@
 					$('#after_stepsify').show();
 				}
 			});
-			
+
 			$('#psteps_add_validation').psteps({
 				traverse_titles: 'visited',
 				shrink_step_names: false,
@@ -233,18 +233,17 @@
 						if (cur_step.hasClass('step-active'))
 							alert('Incorrect box clicked. Choose the right one!');
 						return 'error';
-					} else {
+					} else
 						return false;
-					}
 				},
 				before_next: "Please choose the correct box before moving on to the next step.",
 				before_submit: "Please complete all steps before submitting."
 			}).find('.colored-box').click(function(){
 				var box = $(this);
 				box.addClass('clicked-box').siblings().css('opacity', '.5').removeClass('clicked-box').end().css('opacity', '1');
-				if (box.hasClass('correct-box')) {
+				if (box.hasClass('correct-box'))
 					box.addClass('success-box');
-				} else
+				else
 					box.siblings('.correct-box').removeClass('success-box');
 				box.trigger('validate_psteps');
 			});
@@ -261,14 +260,13 @@
 						setTimeout(function(){
 							step_tooltip.tooltip('show');
 						}, 3000);
-					} else {
+					} else
 						$('.step-tooltip').tooltip('hide');
-					}
 					return true;
 				},
 				validation_rule: function(){
 					var cur_step = $(this);
-					
+
 					if (cur_step.hasClass('pstep1')) {
 						// Validation Rule for Step 1
 						var first_name = cur_step.find('[name=first_name]');
@@ -278,7 +276,7 @@
 							if (cur_step.hasClass('step-active'))
 								alert('Please enter \'Bob\' as the first name.');
 							return 'error';
-						} else 
+						} else
 							return false;
 					} else if (cur_step.hasClass('pstep2')) {
 						// Validation Rule for Step 2
@@ -289,7 +287,7 @@
 							if (cur_step.hasClass('step-active'))
 								alert('Please enter \'Herman\' as the middle name.');
 							return 'warning';
-						} else 
+						} else
 							return false;
 					} else if (cur_step.hasClass('pstep3')) {
 						// Validation Rule for Step 3
@@ -300,7 +298,7 @@
 							if (cur_step.hasClass('step-active'))
 								alert('Please enter \'Sherman\' as the last name.');
 							return 'warning';
-						} else 
+						} else
 							return false;
 					}
 				},
@@ -309,7 +307,7 @@
 			}).find('input').change(function(){
 				$(this).trigger('validate_psteps');
 			});
-			
+
 			$('#psteps_simple_new_layout').psteps({
 				steps_width_percentage: true,
 				alter_width_at_viewport: '2500',
@@ -344,7 +342,7 @@
 							step_tooltip.tooltip('show');
 						}, 1000);
 					}
-					
+
 					if (cur_step.hasClass('pstep2')) {
 						cur_step.find('[name=birthdate]').datepicker({
 							maxDate: 0,
@@ -355,7 +353,7 @@
 							dateFormat: 'yy-mm-dd'
 						});
 					}
-					
+
 					if (cur_step.hasClass('pstep4')) {
 						var radio_public = cur_step.find('[name=public]');
 						var radio_private = cur_step.find('[name=private]');
@@ -409,7 +407,7 @@
 						} else {
 							toggle_completed(input, true);
 						}
-						
+
 						// Password
 						var input = cur_step.find('.step-validate:[name=password]');
 						var input_val = input.val();
@@ -423,7 +421,7 @@
 							count_error++;
 						} else
 							toggle_completed(input, true);
-						
+
 						// Email
 						var input = cur_step.find('.step-validate:[name=retype_email]');
 						var input_compare = cur_step.find('.step-validate:[name=email]');
@@ -439,11 +437,11 @@
 							count_error++;
 						} else
 							toggle_completed(input, true);
-					
+
 						cur_step.find('.step-validate').removeClass('cur-validate');
-					
+
 						return validate_step(count_error, count_warning, count_false);
-						
+
 					} else if (cur_step.hasClass('pstep2')) {
 						// Validation Rule for Step 2
 						var active = cur_step.hasClass('step-active');
@@ -463,9 +461,9 @@
 							count_error += 1;
 						} else
 							toggle_completed(input, true);
-						
+
 						return validate_step(count_error, count_warning, count_false);
-						
+
 					} else if (cur_step.hasClass('pstep3')) {
 						// Validation Rule for Step 3
 						var active = cur_step.hasClass('step-active');
@@ -483,9 +481,9 @@
 							count_false++;
 							toggle_completed(check_box, false);
 						}
-						
+
 						return validate_step(count_error, count_warning, count_false);
-						
+
 					} else if (cur_step.hasClass('pstep4')) {
 						// Validation Rule for Step 3
 						var radio_public = cur_step.find('.step-validate:[name=public]');
@@ -508,7 +506,7 @@
 				} else
 					elem.trigger('validate_psteps');
 			}).end().find('pf-completed').hide();
-			
+
 			// To keep step lines in psteps_circle_steps looking good!
 			var configure_circle_lines = function(circle_container){
 				$(window).resize(function(){
@@ -525,7 +523,7 @@
 					}, 200);
 				}).resize();
 			}
-			
+
 			$('#psteps_circle_steps_simple').psteps({
 				traverse_titles: 'visited',
 				steps_width_percentage: false,
@@ -533,10 +531,10 @@
 				step_names: false,
 				check_marks: false
 			});
-			
-			
+
+
 			configure_circle_lines($('.psteps_circle_titles', '#psteps_circle_steps_simple'));
-			
+
 			$('#psteps_circle_steps').psteps({
 				traverse_titles: 'never',
 				steps_width_percentage: false,
@@ -575,40 +573,40 @@
 							return true;
 						}
 					}
-					
+
 					if (cur_step.hasClass('pstep1'))
 						return validate_answers(cur_step, '1','5');
-					
+
 					if (cur_step.hasClass('pstep2'))
 						return validate_answers(cur_step, '2','5');
-					
+
 					if (cur_step.hasClass('pstep3'))
 						return validate_answers(cur_step, '3','56');
-					
+
 					if (cur_step.hasClass('pstep4'))
 						return validate_answers(cur_step, '4','12');
-					
+
 					if (cur_step.hasClass('pstep5'))
 						return validate_answers(cur_step, '5','25');
-					
+
 					if (cur_step.hasClass('pstep6'))
 						return validate_answers(cur_step, '6','-10');
-					
+
 					if (cur_step.hasClass('pstep7'))
 						return validate_answers(cur_step, '7','15');
-					
+
 					if (cur_step.hasClass('pstep8'))
 						return validate_answers(cur_step, '8','30');
-					
+
 					if (cur_step.hasClass('pstep9'))
 						return validate_answers(cur_step, '9','4');
-					
+
 					if (cur_step.hasClass('pstep10'))
 						return validate_answers(cur_step, '10','35');
-					
+
 					if (cur_step.hasClass('pstep11'))
 						return validate_answers(cur_step, '11','51');
-					
+
 				},
 				before_next: "Please provide an answer to the math problem.",
 				before_submit: "Please complete all sections before submitting.",
@@ -617,32 +615,32 @@
 					var after_steps = psteps.find('.after-steps');
 					var step_contents = psteps.find('.step-content');
 					var step_titles = psteps.find('.step-title');
-					
+
 					step_contents.hide();
-					
+
 					var num_steps = step_titles.length;
 					var num_steps_right = psteps.find('.step-title.btn-success').length;
-					
+
 					after_steps.find('.num-questions').html(num_steps);
 					after_steps.find('.results-answered').html(num_steps_right);
-					
+
 					var percentage = Math.round( (num_steps_right / num_steps) * 100);
 					if (percentage >= 80 && percentage < 90)
 						percentage = "an "+percentage;
 					else
 						percentage = "a "+percentage;
-					
+
 					after_steps.find('.results-percentage').html(percentage);
-					
+
 					after_steps.show();
 					step_titles.addClass('disabled');
-						
+
 					var submit_button = psteps.find('.submit-button');
 					submit_button.hide();
-					
+
 					var back_button = psteps.find('.back-button');
 					back_button.hide();
-					
+
 					var review_button = $('<button class="btn btn-info" style="display: block; cursor: pointer; float:right; margin: 3px;">Review</button>');
 					back_button.after(review_button);
 					review_button.click(function(){
@@ -657,15 +655,15 @@
 			}).find('.submit-button').click(function(){
 				$(this).trigger('load_after_steps');
 			});
-			
+
 			configure_circle_lines($('.psteps_circle_titles', '#psteps_circle_steps'));
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
 			// This creates all those source buttons.
 			$(".source").each(function(){
 				var button = $(this);
@@ -691,14 +689,14 @@
 						text = js_beautify(button.attr('data-source'));
 						dialog.addClass('steps-jquery');
 						$('.source-dialog.steps-jquery').remove();
-						type = "jquery";
+						type = "js";
 					}
-				
-					$("<pre class=\"prettyprint linenums\" />").text(text).appendTo(dialog);
+
+					$("<pre class=\"prettyprint linenums lang-"+type+"\" />").text(text).appendTo(dialog);
 					if (text.match(/^\w*\([^\)]*\);$/)) {
 						var f_name = text.replace(/\(.*/g, "");
 						text = window[f_name].toString();
-						$("<pre class=\"prettyprint\" />").text(text).appendTo(dialog);
+						$("<pre class=\"prettyprint lang-"+type+"\" />").text(text).appendTo(dialog);
 					}
 					dialog.dialog({width: "auto", dialogClass: "sourcecode"});
 					// Make sure the dialog isn't more than 800x600.
@@ -892,7 +890,7 @@ $(function(){
 							<br/>
 							<p>
 								Pines Steps is useful for step-based transitions. We encourage
-								the use of custom validation to show progression to users, so that the 
+								the use of custom validation to show progression to users, so that the
 								experience of completing linear tasks on the web is easier and user-friendly!
 							</p>
 						</div>
@@ -914,7 +912,7 @@ $(function(){
 						<div class="alert-block">
 							<h3><i class="icon-list-alt" style="position: relative; top: 3px;"></i> Cross-Browser</h3>
 							<p>
-								Pines Steps works in all major browsers and 
+								Pines Steps works in all major browsers and
 								provides a consistent interface. It is tested
 								thoroughly for consistency.
 							</p>
@@ -924,10 +922,10 @@ $(function(){
 						<div class="alert-block">
 							<h3><i class="icon-pencil" style="position: relative; top: 3px;"></i> Semantic</h3>
 							<p>
-								There are no specific elements you must use for 
-								Pines Steps. This allows you to use the most 
-								semantically correct elements (even HTML5 elements) 
-								in your design. 
+								There are no specific elements you must use for
+								Pines Steps. This allows you to use the most
+								semantically correct elements (even HTML5 elements)
+								in your design.
 							</p>
 						</div>
 					</div>
@@ -984,12 +982,12 @@ $(function(){
 						<button class="btn steps-css source" data-source='#psteps_simple .step-title{float: left;min-height: 20px;border-radius: 0;}#psteps_simple .step-title{padding-left: 0;padding-right: 0;width: 99.5% !important;min-height: 28px;display: block;}#psteps_simple .step-title .step-order{float: left;margin-left: 12%;}#psteps_simple .step-title .step-name{float: left;margin-left: 2%;}#psteps_simple .step-title[class^="icon-"]{float: right;margin-right: 7%;margin-top: 2%;}#psteps_simple .next-button, .submit-button, .back-button{float:right;margin:3px;}'>css {}</button>
 						<button class="btn steps-jquery source" data-source="$('#psteps_simple').psteps();">jQuery {}</button>
 					</div>
-					<p>This is the default psteps. In this example, you can never 
-						click the step titles. Remember that scaffolding the layout is all up to 
+					<p>This is the default psteps. In this example, you can never
+						click the step titles. Remember that scaffolding the layout is all up to
 						you. Here we designed a vertical sidebar for step titles.
 					</p>
 				</div>
-				<button id="pstepsify" class="btn btn-info" style="margin-bottom:20px;">PSTEPS-ify</button>
+				<button id="pstepsify" class="btn btn-info" style="margin-bottom:20px;">PStepsify</button>
 				<div id="psteps_simple" class="row-fluid" style="margin-bottom:20px">
 					<div class="span2">
 						<div class="step-title"><span class="step-order">1.</span> <span class="step-name">Step 1</span></div>
@@ -1004,21 +1002,21 @@ $(function(){
 						<div class="step-content">Step 3</div>
 						<div class="step-content">Step 4</div>
 						<div class="step-content">Step 5</div>
-						
+
 						<button class="next-button btn">Next Step</button>
 						<button class="submit-button btn">Done</button>
 						<button class="back-button btn">Back Step</button>
 					</div>
 				</div>
-				
+
 				<h3>Add Validation</h3>
 				<div class="btn-group">
 					<button class="btn steps-html source" data-source='<div id="psteps_add_validation" class="row-fluid"><div class="span2"><div class="step-title"><span class="step-order">a.</span><span class="step-name">Pick a Yellow box</span></div><div class="step-title"><span class="step-order">b.</span><span class="step-name">Pick an Orange box</span></div><div class="step-title"><span class="step-order">c.</span><span class="step-name">Pick a Purple box</span></div></div><div class="span6 well clearfix"><div class="step-content"><p>Choose the yellow box:</p><div class="row-fuild span5"><span class="colored-box correct-box" style="background: #e3cf5f;"></span><span class="colored-box" style="background: #ed8a42;"></span><span class="colored-box" style="background: #9544eb;"></span></div></div><div class="step-content hide"><p>Choose the orange box:</p><div class="row-fuild span5"><span class="colored-box" style="background: #e3cf5f;"></span><span class="colored-box correct-box" style="background: #ed8a42;"></span><span class="colored-box" style="background: #9544eb;"></span></div></div><div class="step-content hide"><p>Choose the purple box:</p><div class="row-fuild span5"><span class="colored-box" style="background: #e3cf5f;"></span><span class="colored-box" style="background: #ed8a42;"></span><span class="colored-box correct-box" style="background: #9544eb;"></span></div></div><div style="clear:both;"></div><button class="next-button btn hide">Next</button><button class="submit-button btn">Done</button><button class="back-button btn">Back</button></div></div>'>html {}</button>
 					<button class="btn steps-css source" data-source='#psteps_add_validation .step-title{float: left;min-height: 20px;border-radius: 0;}#psteps_add_validation .step-title{padding-left: 0;padding-right: 0;width: 99.5% !important;min-height: 28px;display: block;}#psteps_add_validation .step-title .step-order{float: left;margin-left: 12%;}#psteps_add_validation .step-title .step-name{float: left;margin-left: 2%;}#psteps_add_validation .step-title[class^="icon-"]{float: right;margin-right: 7%;margin-top: 2%;}#psteps_add_validation .next-button, .submit-button, .back-button{float:right;margin:3px;}#psteps_add_validation .colored-box{display:inline-block;cursor:pointer;width:50px;height:50px;opacity: .5;}#psteps_add_validation .step-title .step-name{margin-left: 12%;}'>css {}</button>
 					<button class="btn steps-jquery source" data-source="$('#psteps_add_validation').psteps({traverse_titles: 'visited',shrink_step_names: false,validation_rule: function(){var cur_step=$(this);var correct_box=cur_step.find('.correct-box');return (correct_box.hasClass('success-box'));},before_next: 'Please choose the correct box before moving on to the next step.',before_submit: 'Please complete all steps before submitting.'}).find('.colored-box').click(function(){var box=$(this);box.siblings().css('opacity', '.5').end().css('opacity', '1');if (box.hasClass('correct-box')){box.addClass('success-box');}elsebox.siblings('.correct-box').removeClass('success-box');box.trigger('validate_psteps');});">jQuery {}</button>
 				</div>
-				<p>In this example, you can only click the step titles if you have 
-					visited the step. We added a click event (on the boxes) that triggers 
+				<p>In this example, you can only click the step titles if you have
+					visited the step. We added a click event (on the boxes) that triggers
 					our validation rule. Our rule only indicates success (green title) when
 					the right box is clicked. It will remain incomplete (blue title) if wrong.
 					This example also shows that you can use any order naming for your titles (a-c).
@@ -1060,7 +1058,7 @@ $(function(){
 						<button class="back-button btn">Back</button>
 					</div>
 				</div>
-				
+
 				<h3>Strict - Indicates Incorrect Answers</h3>
 				<div class="btn-group">
 					<button class="btn steps-html source" data-source='<div id="psteps_strict" class="row-fluid"><div class="span2"><div class="step-title"><span class="step-order">i.</span><span class="step-name">Pick a Yellow box</span></div><div class="step-title"><span class="step-order">ii.</span><span class="step-name">Pick an Orange box</span></div><div class="step-title"><span class="step-order">iii.</span><span class="step-name">Pick a Purple box</span></div></div><div class="span6 well clearfix"><div class="step-content"><p>Choose the yellow box:</p><div class="row-fuild span5"><span class="colored-box correct-box" style="background: #e3cf5f;"></span><span class="colored-box" style="background: #ed8a42;"></span><span class="colored-box" style="background: #9544eb;"></span></div></div><div class="step-content hide"><p>Choose the orange box:</p><div class="row-fuild span5"><span class="colored-box" style="background: #e3cf5f;"></span><span class="colored-box correct-box" style="background: #ed8a42;"></span><span class="colored-box" style="background: #9544eb;"></span></div></div><div class="step-content hide"><p>Choose the purple box:</p><div class="row-fuild span5"><span class="colored-box" style="background: #e3cf5f;"></span><span class="colored-box" style="background: #ed8a42;"></span><span class="colored-box correct-box" style="background: #9544eb;"></span></div></div><div style="clear:both;"></div><button class="next-button btn hide">Next</button><button class="submit-button btn">Done</button><button class="back-button btn">Back</button></div></div>'>html {}</button>
@@ -1068,7 +1066,7 @@ $(function(){
 					<button class="btn steps-jquery source" data-source="$('#psteps_strict').psteps({traverse_titles: 'never',back: false,step_order: false,validate_error_msg: 'Correct answers before moving to next step.',validation_rule: function(){var cur_step=$(this);var title_active=$('.step-title.step-active');var correct_box=cur_step.find('.correct-box');var clicked_box=cur_step.find('.clicked-box');if (correct_box.hasClass('success-box')){title_active.removeClass('step-error');return true;}else if (clicked_box.length > 0 || title_active.hasClass('step-error')){if (cur_step.hasClass('step-active'))alert('Incorrect box clicked. Choose the right one!');return 'error';}else{return false;}},before_next: 'Please choose the correct box before moving on to the next step.',before_submit: 'Please complete all steps before submitting.'}).find('.colored-box').click(function(){var box=$(this);box.addClass('clicked-box').siblings().css('opacity', '.5').removeClass('clicked-box').end().css('opacity', '1');if (box.hasClass('correct-box')){box.addClass('success-box');}elsebox.siblings('.correct-box').removeClass('success-box');box.trigger('validate_psteps');});">jQuery {}</button>
 				</div>
 				<p>In this example, you may not advance to the next step if there are
-					errors or if it is incomplete. You may not back track. Titles are 
+					errors or if it is incomplete. You may not back track. Titles are
 					never traversable. Because we utilized errors in our validation rule,
 					we have an immediate indication of wrong answers, unlike the example above.
 					This example does not show the step orders, except at small viewports, when
@@ -1111,7 +1109,7 @@ $(function(){
 						<button class="back-button btn">Back</button>
 					</div>
 				</div>
-				
+
 				<h3>Conditional Validation</h3>
 				<div class="btn-group">
 					<button class="btn steps-html source" data-source='<div id="psteps_conditional_validation" class="row-fluid pf-form"><div class="span2"><div class="step-title"><span class="step-order">1.</span><span class="step-name">First Name</span></div><div class="step-title"><span class="step-order">2.</span><span class="step-name">Middle Name</span></div><div class="step-title"><span class="step-order">3.</span><span class="step-name">Last Name</span></div></div><div class="span6 well clearfix"><div class="step-content"><div class="pf-element"><label><span class="pf-label">First Name<span class="pf-note">Type Bob.</span></span><input class="pf-field" type="text" name="first_name"/><span class="pf-required"><span class="step-tooltip" data-original-title="Correct Input Required"><i class="icon-asterisk"></i></span></span></label></div></div><div class="step-content hide"><div class="pf-element"><label><span class="pf-label">Middle Name<span class="pf-note">Type Herman.</span></span><input class="pf-field" type="text" name="middle_name"/></label></div></div><div class="step-content hide"><div class="pf-element"><label><span class="pf-label">Last Name<span class="pf-note">Type Sherman.</span></span><input class="pf-field" type="text" name="last_name"/></label></div></div><div style="clear:both;"></div><button class="next-button btn hide">Next</button><button class="submit-button btn">Done</button><button class="back-button btn">Back</button></div></div>'>html {}</button>
@@ -1121,7 +1119,7 @@ $(function(){
 				<p>So far we've seen steps that validate if all steps use the same
 					validation rule. This example shows how to construct different validation rules.
 					Notice that the titles are always traversable (and as a result they always indicate progress).
-					This example also shows the difference between an error and a warning, where 
+					This example also shows the difference between an error and a warning, where
 					warnings will still allow progression and errors will not.
 				</p>
 				<div id="psteps_conditional_validation" class="row-fluid pf-form">
@@ -1164,7 +1162,7 @@ $(function(){
 						<button class="back-button btn">Back</button>
 					</div>
 				</div>
-				
+
 				<h3>Simple Horizontal layout</h3>
 				<div class="btn-group">
 					<button class="btn steps-html source" data-source='<div id="psteps_simple_new_layout" class="pf-form"><div class="row-fluid"><div class="span8" style="margin-left: 1%;"><div class="step-title"><span class="step-order">1.</span><span class="step-name">Step 1</span></div><div class="step-title"><span class="step-order">2.</span><span class="step-name">Step 2</span></div><div class="step-title"><span class="step-order">3.</span><span class="step-name">Step 3</span></div><div class="step-title"><span class="step-order">4.</span><span class="step-name">Step 4</span></div><div class="step-title"><span class="step-order">5.</span><span class="step-name">Step 5</span></div></div></div><div class="row-fluid"><div class="span8 well clearfix"><div class="step-content">Step 1</div><div class="step-content hide">Step 2</div><div class="step-content hide">Step 3</div><div class="step-content hide">Step 4</div><div class="step-content hide">Step 5</div><div style="clear:both;"></div><button class="next-button btn hide">Next</button><button class="submit-button btn">Done</button><button class="back-button btn">Back</button></div></div></div>'>html {}</button>
@@ -1213,7 +1211,7 @@ $(function(){
 						</div>
 					</div>
 				</div>
-				
+
 				<h3>Practical Use</h3>
 				<div class="btn-group">
 					<button class="btn steps-html source" data-source='<div id="psteps_new_layout" class="pf-form"><div class="row-fluid"><div class="span8" style="margin-left: 1%;"><div class="step-title"><span class="step-order">1.</span><span class="step-name">Sign Up</span></div><div class="step-title"><span class="step-order">2.</span><span class="step-name">Basic Info</span></div><div class="step-title"><span class="step-order">3.</span><span class="step-name">Account Settings</span></div><div class="step-title"><span class="step-order">4.</span><span class="step-name">Security Settings</span></div></div></div><div class="row-fluid"><div class="span8 well clearfix"><div class="step-content"><div class="pf-element"><label><span class="pf-label">First Name</span><input class="pf-field" type="text" name="first_name"/></label></div><div class="pf-element"><label><span class="pf-label">Last Name</span><input class="pf-field" type="text" name="last_name"/></label></div><div class="pf-element"><label><span class="pf-label"><strong>Username</strong></span><input class="pf-field step-validate" type="text" name="username"/><span class="step-tooltip" data-original-title="6-12 chars."><i class="icon-asterisk pf-required"></i><i class="icon-asterisk pf-completed hide"></i></span></label></div><div class="pf-element"><label><span class="pf-label"><strong>Password</strong></span><input class="pf-field step-validate" type="password" name="password"/><span class="step-tooltip" data-original-title="Longer than 6 chars."><i class="icon-asterisk pf-required"></i><i class="icon-asterisk pf-completed hide"></i></span></label></div><div class="pf-element"><label><span class="pf-label">Email</span><input class="pf-field step-validate" type="email" name="email"/></label></div><div class="pf-element"><label><span class="pf-label"><strong>Retype Email</strong></span><input class="pf-field step-validate" type="email" name="retype_email"/><span class="step-tooltip" data-original-title="Must match input above."><i class="icon-asterisk pf-required"></i><i class="icon-asterisk pf-completed hide"></i></span></label></div></div><div class="step-content hide"><div class="pf-element"><label><span class="pf-label">Birth Date</span><input class="pf-field step-validate" type="text" name="birthdate"/><span class="step-tooltip" data-original-title="Required Field"><i class="icon-asterisk pf-required"></i><i class="icon-asterisk pf-completed hide"></i></span></label></div><div class="pf-element"><label><span class="pf-label">Gender</span><select class="pf-field" name="gender"><option value="blank">Leave Blank</option><option value="male">Male</option><option value="female">Female</option></select></label></div><div class="pf-element"><label><span class="pf-label">Interests</span><textarea class="pf-field" name="interests"></textarea></label></div></div><div class="step-content hide"><div class="pf-element"><label><span class="pf-label">Receive Email Notifications</span><input type="checkbox" class="pf-field" name="notifications" checked="checked"/></label></div><div class="pf-element"><label><span class="pf-label">Agree to Terms of Service</span><input type="checkbox" class="pf-field step-validate" name="terms"/><span class="step-tooltip" data-original-title="Required Field"><i class="icon-asterisk pf-required"></i><i class="icon-asterisk pf-completed hide"></i></span></label></div></div><div class="step-content hide"><div class="pf-element"><span class="pf-label">Make Profile</span><div class="pf-group"><label><input class="pf-field step-validate" type="radio" name="public">Public</label><label><input class="pf-field step-validate" type="radio" name="private">Private</label></div></div></div><div style="clear:both;"></div><button class="next-button btn hide">Next</button><button class="submit-button btn">Done</button><button class="back-button btn">Back</button></div></div></div>'>html {}</button>
@@ -1222,13 +1220,13 @@ $(function(){
 				</div>
 				<p>
 					This example shows a more practical use for the plugin, and also shows
-					how helpful multiple validation rules and progress indication can be. The 
+					how helpful multiple validation rules and progress indication can be. The
 					addition of the colored asterisks shows how easy it is to make validation
 					rules more robust.
 					Also, this example utilizes the content headings option which displays
 					the name of the step in the content as a heading. Keep in mind that the
 					validation rules for this example are much more complicated, because we
-					are using different validation rules not only between the steps, but 
+					are using different validation rules not only between the steps, but
 					within the steps too.
 				</p>
 				<div id="psteps_new_layout" class="pf-form">
@@ -1340,8 +1338,8 @@ $(function(){
 						</div>
 					</div>
 				</div>
-				
-				
+
+
 				<h3>Design your Psteps</h3>
 				<div class="btn-group">
 					<button class="btn steps-html source" data-source='<div id="psteps_circle_steps_simple" class="pf-form"><div class="row-fluid"><div class="psteps_circle_titles span4"><div class="step-title circle-step"><span class="step-order">1</span><span class="step-name hide">Register</span></div><div class="step-line"></div><div class="step-title circle-step"><span class="step-order">2</span><span class="step-name hide">File Claim</span></div><div class="step-line"></div><div class="step-title circle-step"><span class="step-order">3</span><span class="step-name hide">Product Info</span></div><div class="step-line"></div><div class="step-title circle-step"><span class="step-order">4</span><span class="step-name hide">Sale Info</span></div><div class="step-line"></div><div class="step-title circle-step"><span class="step-order">5</span><span class="step-name hide">Troubleshoot Description</span></div></div></div><div class="row-fluid"><div class="span4 clearfix psteps_circle_contents"><div class="step-content">Content 1...</div><div class="step-content">Content 2...</div><div class="step-content">Content 3...</div><div class="step-content">Content 4...</div><div class="step-content">Content 5...</div><div style="clear:both;"></div><button class="next-button btn hide">Next</button><button class="submit-button btn">Done</button><button class="back-button btn">Back</button></div></div></div>'>html {}</button>
@@ -1355,7 +1353,7 @@ $(function(){
 					to style itself, other than the bootstrap classes to indicate colored progress on the titles and transition buttons (next, submit, back).
 					This example also shows the use of step orders, without ever displaying step-names or check marks.
 					It's important to still set the step names, though, because they are used for
-					the content headings. 
+					the content headings.
 				</p>
 				<div id="psteps_circle_steps_simple" class="pf-form">
 					<div class="row-fluid">
@@ -1405,12 +1403,12 @@ $(function(){
 					can be tailored to each unique, specific project.
 				</p>
 				<p>
-					Notice that this example shows the user that the answer is wrong 
-					<strong>after</strong> advancing to the next step. This differs 
-					from our Strict Example from earlier because the Strict Example 
+					Notice that this example shows the user that the answer is wrong
+					<strong>after</strong> advancing to the next step. This differs
+					from our Strict Example from earlier because the Strict Example
 					immediately relayed to the user that they were wrong and would
 					not allow progression until corrected. In this test example,
-					we do not want the user to be able to change their answer, 
+					we do not want the user to be able to change their answer,
 					but we do want to indicated to the user the success of their answer.
 				</p>
 				<p>
@@ -1418,7 +1416,7 @@ $(function(){
 					if you complete the test, that we utilized the load_after_steps function and
 					trigger upon clicking the submit button. The function we wrote in load_after_steps
 					creates a review button and shows the results of the test. Clicking the review button
-					triggers the event traverse_always so that all the titles can be clicked now. 
+					triggers the event traverse_always so that all the titles can be clicked now.
 					Also triggered by the review button is the event go_to_first_error, if there are any,
 					which takes the user to the first question they answered incorrectly.
 				</p>
@@ -1444,77 +1442,77 @@ $(function(){
 							<div class="step-content">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_1" />
+										<input class="pf-field step-validate" type="text" name="circle_1" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_2" />
+										<input class="pf-field step-validate" type="text" name="circle_2" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_3" />
+										<input class="pf-field step-validate" type="text" name="circle_3" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_4" />
+										<input class="pf-field step-validate" type="text" name="circle_4" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_5" />
+										<input class="pf-field step-validate" type="text" name="circle_5" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_6" />
+										<input class="pf-field step-validate" type="text" name="circle_6" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_7" />
+										<input class="pf-field step-validate" type="text" name="circle_7" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_8" />
+										<input class="pf-field step-validate" type="text" name="circle_8" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_9" />
+										<input class="pf-field step-validate" type="text" name="circle_9" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_10" />
+										<input class="pf-field step-validate" type="text" name="circle_10" autocomplete="off" />
 									</label>
 								</div>
 							</div>
 							<div class="step-content hide">
 								<div class="pf-element">
 									<label>
-										<input class="pf-field step-validate" type="text" name="circle_11" />
+										<input class="pf-field step-validate" type="text" name="circle_11" autocomplete="off" />
 									</label>
 								</div>
 							</div>
@@ -1533,7 +1531,7 @@ $(function(){
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 			<div id="options">
 				<div class="page-header">
@@ -1556,9 +1554,9 @@ $(function(){
 							<td>traverse_titles</td>
 							<td>string</td>
 							<td>'never' </td>
-							<td>How step titles can be traversed - never | always | visited. 
-								Keep in mind that validation is not applied to the titles being traversed. 
-								This may trigger your reasons for using 'never' or 'visited'. 
+							<td>How step titles can be traversed - never | always | visited.
+								Keep in mind that validation is not applied to the titles being traversed.
+								This may trigger your reasons for using 'never' or 'visited'.
 								You can also trigger the event traverse_always | traverse_never | traverse_visited
 								to switch up traversal after psteps has been initialized.
 							</td>
@@ -1702,14 +1700,14 @@ $(function(){
 							<td>function</td>
 							<td>return true</td>
 							<td>This is the most important part of the plugin, because it is where you custom design the rules that will determine
-							the progression and color indication of that progress. You will make all of your rules in this function, for each step. It's similar to the previous function examples, where 
+							the progression and color indication of that progress. You will make all of your rules in this function, for each step. It's similar to the previous function examples, where
 							we need to check if the step hasClass('pstep#') to make a rule for a certain step.
 							<br/><br/>
 							<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">validation_rule: function(){
 	cur_step = $(this);
 	if (cur_step.hasClass('pstep1')
 		// Make a rule for step 1
-	
+
 	if (cur_step.hasClass('pstep2')
 		// Make a rule for step 2.
 }</pre>
@@ -1720,7 +1718,7 @@ $(function(){
 								<li><code>return 'warning'</code> - this will trigger a warning and will always allow progression.</li>
 								<li><code>return 'error'</code> - this will trigger an error and will, according to your options, not allow progression.</li>
 							</ol>
-							If you have multiple rules within a <strong>single</strong> step, you would not want to return after the first check. 
+							If you have multiple rules within a <strong>single</strong> step, you would not want to return after the first check.
 							You may consider just keeping a count of errors or warnings and then returning based on the final tally
 							( if you have any errors, return 'error'. If you have any warnings, return 'error'. See the practical use demo for
 							an example of this or look at the code below.
@@ -1737,18 +1735,18 @@ $(function(){
 		}
 		if (type_bob_input != '' && != 'bob')
 			error++;
-		else if (type_bob_input == '') 
+		else if (type_bob_input == '')
 			incomplete++;
-		
+
 		if (error > 0)
 			return 'error';
 		else if (incomplete > 0)
 			return false;
-		else 
+		else
 			return true;
 	}
 }</pre>
-							
+
 							</td>
 						</tr>
 						<tr>
@@ -1769,7 +1767,7 @@ $(function(){
 							<td>true</td>
 							<td>Validation for errors overrides validate_next_step. If this is false, and validate_next_step is true, progression to the next step
 							would still not happen. (Because validate_next_step needs to receive a <code>return true</code> from the validation rule.
-							So you may need to use ignore_errors_on_next if you really want to make validation for errors <strong>false</strong>. 
+							So you may need to use ignore_errors_on_next if you really want to make validation for errors <strong>false</strong>.
 							</td>
 						</tr>
 						<tr>
@@ -1788,9 +1786,9 @@ $(function(){
 							<td>validate_error_msg</td>
 							<td>string</td>
 							<td>'There was an error processing the step.'</td>
-							<td>This error message will not be unique for errors on each step. 
-								It's generic. You can override it, but it still won't be unique. 
-								There's an option not to use it. 
+							<td>This error message will not be unique for errors on each step.
+								It's generic. You can override it, but it still won't be unique.
+								There's an option not to use it.
 								Write your error alerts in your validation rule in that case.</td>
 						</tr>
 						<tr>
@@ -1803,8 +1801,8 @@ $(function(){
 							<td>use_before_submit</td>
 							<td>boolean</td>
 							<td>true</td>
-							<td>If an alert/notice will be displayed to the user 
-								to indicate that they must complete all steps before 
+							<td>If an alert/notice will be displayed to the user
+								to indicate that they must complete all steps before
 								submission.
 							</td>
 						</tr>
@@ -1812,15 +1810,15 @@ $(function(){
 							<td>before_submit</td>
 							<td>string</td>
 							<td>'Please complete all of the required steps before submitting.'</td>
-							<td>The alert/notice string to use to indicate to the user 
-								that they must complete all steps before 
+							<td>The alert/notice string to use to indicate to the user
+								that they must complete all steps before
 								submission.</td>
 						</tr>
 						<tr>
 							<td>use_before_next</td>
 							<td>boolean</td>
 							<td>true</td>
-							<td>If an alert/notice will be displayed to the user 
+							<td>If an alert/notice will be displayed to the user
 								to indicate that they must complete the current step before
 								advancing to the next step.
 							</td>
@@ -1849,7 +1847,7 @@ $(function(){
 	psteps.find('.step-content').hide();
 	psteps.find('.my_after_steps_content').html('Yay, you finished all the steps!').show();
 	psteps.find('.back-button, '.submit-button').hide();
-}</pre>	
+}</pre>
 							Also, look at the last circle layout demo. It makes use of this function
 							very nicely.
 							</td>
@@ -1865,10 +1863,10 @@ $(function(){
 					There are a few useful events you should know about when designing your Pines Steps!
 					All of these events are done using trigger.
 				</p>
-				Example: 
+				Example:
 				<br/><br/>
 				<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">$('SELECTOR').trigger('EVENT');</pre>
-				
+
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -1928,7 +1926,7 @@ $(function(){
 						</tr>
 					</tbody>
 				</table>
-				
+
 			</div>
 			<div id="theming">
 				<div class="page-header">
@@ -1939,15 +1937,15 @@ $(function(){
 					<a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter
 					Bootstrap</a> to style the progress indication. We recommend using
 					Bootstrap to design the way your steps look and feel, as we've left it
-					very flexible beyond the progress indication. Use 
+					very flexible beyond the progress indication. Use
 					<a href="http://bootswatchr.com/" target="_blank">Bootswatchr</a>
 					to create and download a custom theme for bootstrap that is easy to build
-					and maintain. 
+					and maintain.
 				</p>
 				<p>
 					Pines Steps comes with some really neat and useful includes. You should really
 					consider using <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome</a> in conjuction with bootstrap because it renders all of the
-					icons as fonts, so they take on any font color and can be made any size. 
+					icons as fonts, so they take on any font color and can be made any size.
 					Look at the <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome project on Github</a>.
 					Two other plugins in the Pines project, <a href="">Pines Form</a> and <a href="http://pinesframework.org/pnotify/">Pines Notify</a> are used in the Demos on this page
 					are also included! <a href="http://pinesframework.org/pnotify/">Pines Notify</a> is a fully customizable notification system that I've used in my demos
