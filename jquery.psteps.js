@@ -41,8 +41,7 @@
 				send_button = psteps.find('.submit-button'),
 				toggle_buttons = psteps.find('.next-button, .submit-button'),
 				num_steps = psteps.find('.step-title').length,
-				first_time = true,
-				validating = false;
+				first_time = true;
 
 
 			psteps.get_max_height = function(elements){
@@ -85,18 +84,18 @@
 					// Ensure horizontal step widths always look good (responsive/mobile)
 					if (opts.steps_width_percentage) {
 						var percentage = (100 / num_steps) - 1;
-						if ($(window).width() < parseInt(opts.alter_width_at_viewport) )
+						if ($(window).width() < parseInt(opts.alter_width_at_viewport))
 							psteps.find('.step-title').css({
-								'width' : percentage+'%',
-								'padding-left' : '0px',
-								'padding-right' : '0px'
+								'width': percentage+'%',
+								'padding-left': '0',
+								'padding-right': '0'
 							});
 					}
 
 					// When viewport is small, do not display step names. Show numbers only.
 					if (opts.shrink_step_names) {
 						// Time outs needed so that the following can remove content names.
-						if ($(window).width() <=  parseInt(opts.alter_names_at_viewport) ) {
+						if ($(window).width() <= parseInt(opts.alter_names_at_viewport)) {
 							setTimeout(function(){
 								psteps.find('.step-content-name').remove();
 								psteps.find('.step-name').hide();
@@ -110,9 +109,7 @@
 									psteps.find('.step-order').hide();
 								if (opts.step_names)
 									psteps.find('.step-name').show();
-								if (!opts.content_headings)
-									psteps.find('.step-content-name').remove();
-								else
+								if (opts.content_headings)
 									psteps.make_step_content_headings();
 							}, 200);
 						}
@@ -122,8 +119,7 @@
 					if (opts.steps_height_equalize) {
 						var titles = psteps.find('.step-title');
 						titles.css('min-height', original_height);
-						var max = psteps.get_max_height(titles);
-						titles.css('min-height', max);
+						titles.css('min-height', psteps.get_max_height(titles));
 					}
 
 					// Equalize content heights
@@ -131,8 +127,7 @@
 						setTimeout(function(){
 							var step_content = psteps.find('.step-content');
 							step_content.css('min-height', original_content_height);
-							var max_content = psteps.get_max_height(step_content);
-							step_content.css('min-height', max_content);
+							step_content.css('min-height', psteps.get_max_height(step_content));
 						}, 2000);
 					}
 				}).resize();
@@ -169,6 +164,7 @@
 					}
 				});
 				psteps.toggle_buttons_function();
+				psteps.trigger('validation_complete');
 			}
 
 			// Function for toggling send/next buttons as btn-success or btn-info.
@@ -193,17 +189,7 @@
 
 				// Check submit button for all steps if necessary
 				if (opts.validate_submit_all_steps) {
-					var incomplete;
-					all_titles.each(function(){
-						var invalid_before = incomplete;
-						if (!$(this).hasClass('btn-success'))
-							incomplete = true;
-						if ($(this).hasClass('step-warning') && !invalid_before)
-							incomplete = false;
-						if ($(this).hasClass('step-error') && !invalid_before && opts.ignore_errors_on_submit)
-							incomplete = false;
-					});
-					if (incomplete)
+					if (all_titles.filter('.btn-info').length || (all_titles.filter('.step-error').length && !opts.ignore_errors_on_submit))
 						send_button.removeClass('btn-success').addClass('btn-info');
 				}
 
@@ -275,10 +261,9 @@
 
 				if (first_time)
 					first_time = false;
-				else if (!validating)
-					psteps.check_progress_titles();
 				else
-					validating = false;
+					psteps.trigger('validate_psteps');
+				psteps.toggle_buttons_function();
 			}
 
 			// Function to go to the next step (calls go to step)
@@ -412,8 +397,17 @@
 
 			// Extremely useful for instant validation, for example, after a
 			// user has completed an input on a step.
-			psteps.bind('validate_psteps', function(){
-				validating = true;
+			var last_val_timestamp = 0;
+			psteps.bind('validate_psteps', function(e){
+				console.log(e);
+				// Validation throttling: validation events called within 500ms
+				// should be considered the same event.
+				if (e.timeStamp < (last_val_timestamp + 500)) {
+					e.preventDefault();
+					e.stopPropagation();
+					return;
+				}
+				last_val_timestamp = e.timeStamp;
 				psteps.check_progress_titles();
 			});
 
@@ -479,10 +473,7 @@
 			toggle_buttons.click(function(e){
 				var this_button = $(this);
 				// Just to make sure that the validation ran and titles are correct run check titles.
-				if (!validating)
-					psteps.check_progress_titles();
-				else
-					validating = false;
+				psteps.trigger('validate_psteps');
 				var active_title = psteps.find('.step-title.step-active');
 				if (active_title.hasClass('step-error') && opts.validate_errors && !opts.validate_next_step) {
 					if (opts.validate_use_error_msg)
