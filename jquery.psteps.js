@@ -62,8 +62,17 @@
 				psteps.find('.step-title').each(function(r){
 					var step_name = $(this).find('.step-name'),
 						step_content = psteps.find('.step-content').eq(r);
-					if (step_name.length == 1)
-						step_content.prepend('<div class="step-content-name"><h4>'+step_name.html()+'</h4><hr/></div>');
+					if (step_name.length == 1) {
+						if (opts.content_headings_hr)
+							var the_hr = '<hr/>';
+						else
+							the_hr = '';
+						var the_heading = '<div class="step-content-name"><'+opts.content_headings_element+'>'+step_name.html()+'</'+opts.content_headings_element+'>'+the_hr+'</div>'
+						if (opts.content_headings_after != false && step_content.find(opts.content_headings_after).length > 0)
+							step_content.find(opts.content_headings_after).after(the_heading)
+						else
+							step_content.prepend(the_heading);
+					}
 				});
 			};
 
@@ -513,6 +522,15 @@
 		traverse_titles: "never",
 		// If step names should be copied to step content and used as headings
 		content_headings: false,
+		// The element inside the content headings div to wrap around the step name. ie h4
+		content_headings_element: 'h4',
+		// If the content headings have an hr after them.
+		content_headings_hr: true,
+		// The placement for the content headings using after. ie '.some_class'
+		// False if not used.
+		// If a selector is specified but doesn't exist for every step or at all in the DOM tree, then
+		// it will display at the beginning of a step by default.
+		content_headings_after: false,
 		// Step order is part of the step titles, defined by a class of "step-order".
 		// When step order is true, step-order shows all the time. If shrink_step_names
 		// is true, step order will show at specified viewport sizes even when step
