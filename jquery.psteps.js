@@ -151,6 +151,7 @@
 					cur_step.addClass(class_to_add);
 					// this title matches the content
 					var title = psteps.find('.step-title').eq(i);
+					title.addClass(class_to_add);
 					// Titles are always colored to indicate progress for present/past steps
 					// If you can click titles, colored progress will indicate for future steps too.
 					if ((opts.traverse_titles == 'visited' && title.hasClass('step-visited')) || (opts.traverse_titles == 'never' && title.hasClass('step-visited')) || opts.traverse_titles == 'always') {
@@ -248,9 +249,6 @@
 					c++;
 				});
 
-				if (!show_step.hasClass('step-loaded'))
-					opts.steps_onload.call(show_step);
-
 				opts.steps_hide.call(active_step);
 
 				last_active_title.removeClass('last-active');
@@ -259,10 +257,13 @@
 				active_step.hide().removeClass('step-active').addClass('last-active');
 				show_step.show().addClass('step-active step-visited step-loaded');
 
-				opts.steps_show.call(show_step);
-
 				active_title.removeClass('step-active').addClass('disabled last-active');
 				show_title.addClass('step-active step-visited').removeClass('disabled');
+				
+				if (!show_step.hasClass('step-loaded'))
+					opts.steps_onload.call(show_step);
+				
+				opts.steps_show.call(show_step);
 
 				// If visisted traversing,
 				if (opts.traverse_titles == 'visited')
@@ -408,7 +409,6 @@
 			// user has completed an input on a step.
 			var last_val_timestamp = 0;
 			psteps.bind('validate_psteps', function(e){
-				console.log(e);
 				// Validation throttling: validation events called within 500ms
 				// should be considered the same event.
 				if (e.timeStamp < (last_val_timestamp + 500)) {
