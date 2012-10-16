@@ -255,13 +255,15 @@
 				last_active_content.removeClass('last-active');
 
 				active_step.hide().removeClass('step-active').addClass('last-active');
-				show_step.show().addClass('step-active step-visited step-loaded');
+				show_step.show().addClass('step-active step-visited');
 
 				active_title.removeClass('step-active').addClass('disabled last-active');
 				show_title.addClass('step-active step-visited').removeClass('disabled');
 				
 				if (!show_step.hasClass('step-loaded'))
 					opts.steps_onload.call(show_step);
+				
+				show_step.addClass('step-loaded');
 				
 				opts.steps_show.call(show_step);
 
