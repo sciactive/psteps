@@ -264,17 +264,20 @@
 				traverse_titles: 'always',
 				validate_use_error_msg: false,
 				shrink_step_names: false,
+				steps_show: function(){
+					var cur_step = $(this),
+						loaded_tooltips = cur_step.siblings('.step-loaded').find('.step-tooltip');
+					loaded_tooltips.tooltip('hide');
+				},
 				steps_onload: function(){
-					var cur_step = $(this);
-					var step_tooltip = cur_step.find('.step-tooltip');
-					if (cur_step.hasClass('step-active')) {
+					var cur_step = $(this),
+						step_tooltip = cur_step.find('.step-tooltip');
+					if (step_tooltip.length && cur_step.hasClass('step-active')) {
 						step_tooltip.tooltip({placement: 'right'});
 						setTimeout(function(){
 							step_tooltip.tooltip('show');
 						}, 3000);
-					} else
-						$('.step-tooltip').tooltip('hide');
-					return true;
+					}
 				},
 				validation_rule: function(){
 					var cur_step = $(this);
@@ -337,13 +340,13 @@
 				content_headings: true,
 				step_order: false,
 				steps_show: function(){
-					var cur_step = $(this);
-					var loaded_tooltips = cur_step.siblings('.step-loaded').find('.step-tooltip');
+					var cur_step = $(this),
+						loaded_tooltips = cur_step.siblings('.step-loaded').find('.step-tooltip');
 					loaded_tooltips.tooltip('hide');
 				},
 				steps_onload: function(){
-					var cur_step = $(this);
-					var step_tooltip = cur_step.find('.step-tooltip');
+					var cur_step = $(this),
+						step_tooltip = cur_step.find('.step-tooltip');
 					step_tooltip.tooltip({placement: 'right'});
 					if (cur_step.hasClass('pstep1')) {
 						setTimeout(function(){
@@ -367,8 +370,8 @@
 					}
 
 					if (cur_step.hasClass('pstep4')) {
-						var radio_public = cur_step.find('[name=public]');
-						var radio_private = cur_step.find('[name=private]');
+						var radio_public = cur_step.find('[name=public]'),
+							radio_private = cur_step.find('[name=private]');
 						radio_public.click(function(){
 							if (radio_private.prop('checked') && radio_private.attr('checked')) {
 								radio_private.removeProp('checked').removeAttr('checked');
@@ -388,7 +391,7 @@
 							input.closest('label').find('.pf-required').show().end().find('.pf-completed').hide();
 						else
 							input.closest('label').find('.pf-required').hide().end().find('.pf-completed').show();
-					}
+					};
 					var validate_step = function(errors, warnings, false_results){
 						if (errors > 0)
 							return 'error';
@@ -398,7 +401,7 @@
 							return 'warning';
 						else
 							return true;
-					}
+					};
 					if (cur_step.hasClass('pstep1')) {
 						var active = cur_step.hasClass('step-active');
 						// Validation Rule for Step 1
@@ -406,8 +409,8 @@
 							count_warning = 0,
 							count_error = 0;
 						// Username
-						var input = cur_step.find('.step-validate:[name=username]');
-						var input_val = input.val();
+						var input = cur_step.find('.step-validate:[name=username]'),
+							input_val = input.val();
 						if (input_val == '') {
 							count_false++;
 							toggle_completed(input, false);
@@ -416,13 +419,12 @@
 								alert('Please type a username that is 6-12 characters.');
 							toggle_completed(input, false);
 							count_error++;
-						} else {
+						} else
 							toggle_completed(input, true);
-						}
 
 						// Password
-						var input = cur_step.find('.step-validate:[name=password]');
-						var input_val = input.val();
+						var input = cur_step.find('.step-validate:[name=password]'),
+							input_val = input.val();
 						if (input_val == '') {
 							count_false++;
 							toggle_completed(input, false);
@@ -435,10 +437,10 @@
 							toggle_completed(input, true);
 
 						// Email
-						var input = cur_step.find('.step-validate:[name=retype_email]');
-						var input_compare = cur_step.find('.step-validate:[name=email]');
-						var input_val = input.val();
-						var input_compare_val = input_compare.val();
+						var input = cur_step.find('.step-validate:[name=retype_email]'),
+							input_compare = cur_step.find('.step-validate:[name=email]'),
+							input_val = input.val(),
+							input_compare_val = input_compare.val();
 						if (input_val == '') {
 							count_false++;
 							toggle_completed(input, false);
@@ -456,13 +458,13 @@
 
 					} else if (cur_step.hasClass('pstep2')) {
 						// Validation Rule for Step 2
-						var active = cur_step.hasClass('step-active');
-						var count_false = 0,
+						var active = cur_step.hasClass('step-active'),
+							count_false = 0,
 							count_warning = 0,
 							count_error = 0;
 						// Birth Date
-						var input = cur_step.find('.step-validate:[name=birthdate]');
-						var input_val = input.val();
+						var input = cur_step.find('.step-validate:[name=birthdate]'),
+							input_val = input.val();
 						if (input_val == '') {
 							count_false += 1;
 							toggle_completed(input, false);
@@ -478,15 +480,15 @@
 
 					} else if (cur_step.hasClass('pstep3')) {
 						// Validation Rule for Step 3
-						var active = cur_step.hasClass('step-active');
-						var count_false = 0,
+						var active = cur_step.hasClass('step-active'),
+							count_false = 0,
 							count_warning = 0,
 							count_error = 0;
 						// Terms of Service
 						var check_box = cur_step.find('.step-validate:[name=terms]');
-						if (check_box.prop('checked') && check_box.attr('checked')) {
+						if (check_box.is(':checked'))
 							toggle_completed(check_box, true);
-						} else if (check_box.hasClass('cur-validate')) {
+						else if (check_box.hasClass('cur-validate')) {
 							count_error++;
 							toggle_completed(check_box, false);
 						} else {
@@ -498,15 +500,12 @@
 
 					} else if (cur_step.hasClass('pstep4')) {
 						// Validation Rule for Step 3
-						var radio_public = cur_step.find('.step-validate:[name=public]');
-						var radio_private = cur_step.find('.step-validate:[name=private]');
-						if (radio_public.hasClass('cur-validate') || radio_private.hasClass('cur-validate'))
-							return true;
-						else
-							return false;
+						var radio_public = cur_step.find('.step-validate:[name=public]'),
+							radio_private = cur_step.find('.step-validate:[name=private]');
+						return (radio_public.hasClass('cur-validate') || radio_private.hasClass('cur-validate'));
 					}
 				},
-				before_next: "Please complete the all fields before advancing to the next section.",
+				before_next: "Please complete all the fields before advancing to the next section.",
 				before_submit: "Please complete all sections before submitting."
 			}).find('.step-validate').on('focusout', function(){
 				var elem = $(this);
@@ -519,19 +518,27 @@
 					elem.trigger('validate.psteps');
 			}).end().find('pf-completed').hide();
 
+
+
+
+
+
+			/*
+			* ###### CIRCLE DESIGN ######
+			* 
+			* The following is what you need to do to make the pretty numbered
+			* circle style steps!!
+			*/
 			// To keep step lines in psteps_circle_steps looking good!
 			var configure_circle_lines = function(circle_container){
 				$(window).resize(function(){
 					setTimeout(function(){
-						var step_lines = circle_container.find('.step-line');
-						var num_circles = circle_container.find('.step-title').length;
-						var container_width = circle_container.width();
-						var circle_widths = (circle_container.find('.step-title').outerWidth()) * num_circles;
-						var line_width = Math.floor((container_width - circle_widths) / (num_circles - 1));
-						if (line_width < 1)
-							step_lines.width(0);
-						else
-							step_lines.width(line_width-1);
+						var step_lines = circle_container.find('.step-line'),
+							num_circles = circle_container.find('.step-title').length,
+							container_width = circle_container.width(),
+							circle_widths = (circle_container.find('.step-title').outerWidth()) * num_circles,
+							line_width = Math.floor((container_width - circle_widths) / (num_circles - 1));
+						step_lines.width((line_width < 1) ? 0 : (line_width-1));
 					}, 200);
 				}).resize();
 			}
@@ -547,6 +554,14 @@
 
 
 			configure_circle_lines($('.psteps_circle_titles', '#psteps_circle_steps_simple'));
+			/*
+			* And that's it. :)
+			*/
+
+
+
+
+
 
 			$('#psteps_circle_steps').psteps({
 				traverse_titles: 'never',
@@ -625,15 +640,15 @@
 				before_next: "Please provide an answer to the math problem.",
 				before_submit: "Please complete all sections before submitting.",
 				load_after_steps: function(){
-					var psteps = $(this);
-					var after_steps = psteps.find('.after-steps');
-					var step_contents = psteps.find('.step-content');
-					var step_titles = psteps.find('.step-title');
+					var psteps = $(this),
+						after_steps = psteps.find('.after-steps'),
+						step_contents = psteps.find('.step-content'),
+						step_titles = psteps.find('.step-title');
 
 					step_contents.hide();
 
-					var num_steps = step_titles.length;
-					var num_steps_right = psteps.find('.step-title.btn-success').length;
+					var num_steps = step_titles.length,
+						num_steps_right = psteps.find('.step-title.btn-success').length;
 
 					after_steps.find('.num-questions').html(num_steps);
 					after_steps.find('.results-answered').html(num_steps_right);
@@ -684,9 +699,7 @@
 				button.click(function(){
 					var button = $(this);
 					button.blur();
-					var type;
-					var text;
-					var dialog = $("<div title=\"Source\" class=\"source-dialog\"></div>");
+					var type, text, dialog = $("<div title=\"Source\" class=\"source-dialog\"></div>");
 					if (button.hasClass('steps-html')) {
 						text = style_html(button.attr('data-source'));
 						$('.source-dialog.steps-html').remove();
