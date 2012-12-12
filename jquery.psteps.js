@@ -176,13 +176,29 @@
 
 			// Function for toggling send/next buttons as btn-success or btn-info.
 			psteps.toggle_buttons_function = function(){
+				// Get proper button name
+				var next_name = next_button.attr('data-btn-name'),
+					send_name = send_button.attr('data-btn-name'),
+					back_name = back_button.attr('data-btn-name');
+					
+				if (next_name != undefined && next_name.length)
+					next_button.html(next_name);
+				if (send_name != undefined && send_name.length)
+					send_button.html(send_name);
+				if (back_name != undefined && back_name.length)
+					back_button.html(back_name);
+				
 				// Toggle whether to show send or next.
 				if (psteps.find('.step-content').last().hasClass('step-active')) {
-					next_button.hide();
-					send_button.show();
+					if (!next_button.hasClass('btn-manual'))
+						next_button.hide();
+					if (!send_button.hasClass('btn-manual'))
+						send_button.show();
 				} else {
-					next_button.show();
-					send_button.hide();
+					if (!next_button.hasClass('btn-manual'))
+						next_button.show();
+					if (!send_button.hasClass('btn-manual'))
+						send_button.hide();
 				}
 
 				// Changes color of send/next buttons based upon completion.
@@ -234,7 +250,23 @@
 				var show_step = psteps.find('.step-content').eq(step_num-1),
 					show_title = psteps.find('.step-title').eq(step_num-1);
 
-				opts.steps_hide.call(active_step);
+				// If you're at go to step, and there's step-resumes, the step-transition-processing
+				// was not removed. Remove step-resume class if you don't want to remove the step
+				// transition processing class.
+				if (psteps.find('.step-resume').length) {
+					psteps.find('.step-transition-processing').removeClass('step-transition-processing');
+				}
+				if (active_title.hasClass('step-transition') && !psteps.find('.step-resume').length && !first_time)
+					opts.steps_transition.call(active_step);
+				if (active_title.hasClass('step-transition-processing')) {
+					psteps.find('.step-resume').removeClass('step-resume');
+					show_title.addClass('step-resume');
+					return;
+				} else
+					psteps.find('.step-resume').removeClass('step-resume');
+
+				if (!first_time)
+					opts.steps_hide.call(active_step);
 
 				last_active_title.removeClass('last-active');
 				last_active_content.removeClass('last-active');
@@ -527,6 +559,13 @@
 		steps_show: function(){},
 		// Execute this function right before we hide the active step (hiding this step to show another)
 		steps_hide: function(){},
+		// This function is used for creating transitions between steps. It is ran before steps_hide. You need
+		// to add the class 'step-transition' to the step-title you are transitioning from for this to be called.
+		// You also need to add the class in this function 'step-transition-processing' to prevent the transition.
+		// Which ever step that was going to be transitioned to will have a 'step-resume' class on the title.
+		// Once you remove 'step-transition-processing and trigger the event go_to_step.psteps on the step-resume title, 
+		// you'll have transitioned. This function definitely has a manual operation to it, but it is useful
+		steps_transition: function(){},
 		// Go to the first incomplete step
 		start_incomplete_step: false,
 		// Go to the first step with a warning

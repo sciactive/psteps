@@ -1832,6 +1832,29 @@ $(function(){
 							</td>
 						</tr>
 						<tr>
+							<td>steps_transition</td>
+							<td>function</td>
+							<td>undefined</td>
+							<td>
+								This function is used for creating transitions between steps. It is ran before steps_hide. 
+								You need to add the class 'step-transition' to the step-title you are transitioning from for this
+								to be called. You also need to add the class in this function 'step-transition-processing' to 
+								prevent the transition. Which ever step that was going to be transitioned to will have a 
+								'step-resume' class on the title. Once you remove 'step-transition-processing and trigger the event 
+								go_to_step.psteps on the step-resume title, you'll have transitioned. This function definitely has 
+								a manual operation to it, but it is useful. You could always use the step-transition-processing class
+								to stop transitions and just never manually start them up again. 
+								(Remember to remove the step-resume class if you do that.)
+								<br/><br/>
+								<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">steps_transition: function(){
+	cur_step = $(this);
+	cur_step.addClass('step-transition-processing');
+	if (cur_step.hasClass('pstep1')
+		// Do something awesome every time transition from this step.
+}</pre>
+							</td>
+						</tr>
+						<tr>
 							<td>validation_rule</td>
 							<td>function</td>
 							<td>return true</td>
@@ -2058,6 +2081,125 @@ $(function(){
 							<td>traverse_always.psteps</td>
 							<td>This event should be fired on the psteps object. It will change traversal of step titles to always.
 								<code>$('#my_psteps').trigger('traverse_always.psteps');</code>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<div id="misc">
+				<div class="page-header">
+					<h2>Miscellaneous</h2>
+				</div>
+				<p>
+					What if you want different names for your next button? 
+					Or you want the submit button to show up on an earlier step
+					but don't want it to flash the automatic hide from the plugin?
+					Or you want to have some kind of transition between the steps?
+					Or you want to prevent a next/submit button from going to the next
+					step? 
+				</p>
+				<p>
+					There are some classes you can add to certain elements to create
+					some manual transitions and button names.
+				</p>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 150px;">Class</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>step-transition</td>
+							<td>
+								Put this class on a step title in which you will transition from to signify that the steps_transition function will execute.
+								<br><code>&lt;div class="step-title step-transition"&gt;&lt;span class="step-order"&gt;1&lt;/span&gt;&lt;span class="step-name"&gt;Step 1&lt;/span&gt;&lt;/div&gt;</code>
+							</td>
+						</tr>
+						<tr>
+							<td>step-transition-processing</td>
+							<td>Add this class to a step-title during the steps_transition 
+								function to prevent automatic transitioning to the next step.
+								The plugin will add the class 'step-resume' to the step title for the step 
+								that was prevented. Then use the event 'go_to_step.psteps' on
+								the step-resume step in order to manually resume the step transition.
+								Remember to remove this class before triggering!
+								You could also use this class as a manual way to prevent going to the step.
+								<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">steps_transition: function(){
+	cur_step = $(this);
+	cur_step.addClass('step-transition-processing');
+	if (cur_step.hasClass('pstep1')
+		// Do something awesome every time transition from this step.
+}</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>btn-manual</td>
+							<td>Put this class on either the next-button, submit-button, or back-button.
+								Should put the class on in the steps_show function. Should remove this class
+								on the steps_hide function. This is so you can put any of these buttons on any step
+								without seeing a flash or having issues with the button automatically being hidden.
+							<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">steps_show: function(){
+	cur_step = $(this);
+	if (cur_step.hasClass('pstep1') {
+		// Showing Step 1
+		form.find('.submit-button').addClass('btn-manual');
+	}
+}, steps_hide: function(){
+	cur_step = $(this);
+	if (cur_step.hasClass('pstep1') {
+		// Hiding Step 1
+		form.find('.submit-button').removeClass('btn-manual');
+	}
+}</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>step-notraverse</td>
+							<td>
+								Add this class to the step title of a step you do not want traversed.
+								For example, you have traversal set to always, but do not want step 1
+								traversable.
+								<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">
+form.trigger('traverse_always.psteps')
+form.find('.pstep1.step-title').addClass('step-notraverse');
+</pre>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 150px;">Attribute</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>data-btn-name</td>
+							<td>
+								This attribute should be put on the button whose name you want to change.
+								Let's say that the "next" button on step 1 should say "Sign Up". You would
+								add the attribute data-btn-name and set it equal to "Sign Up" in the steps_show
+								function. In the steps_hide function you would set the attribute to "Next" for all steps
+								after the first step.
+								<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">steps_show: function(){
+	cur_step = $(this);
+	if (cur_step.hasClass('pstep1') {
+		// Showing Step 1
+		form.find('.next-button').attr('data-btn-name', 'Sign Up');
+	}
+}, steps_hide: function(){
+	cur_step = $(this);
+	if (cur_step.hasClass('pstep1') {
+		// Hiding Step 1
+		form.find('.next-button').attr('data-btn-name', 'Next');
+	}
+}</pre>
 							</td>
 						</tr>
 					</tbody>
