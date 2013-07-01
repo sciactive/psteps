@@ -1764,6 +1764,24 @@ $(function(){
 							<td>If there is a back button.</td>
 						</tr>
 						<tr>
+							<td>use_custom_back_button</td>
+							<td>boolean</td>
+							<td>false</td>
+							<td>Specifies whether to utilize a custom back function callback on the click event.</td>
+						</tr>
+						<tr>
+							<td>custom_back_button_click</td>
+							<td>function</td>
+							<td>undefined, num</td>
+							<td>Function arguments are undefined, num, where num
+								is the integer representing the previous step to 
+								go back to. Useful if you want to reload the whole 
+								page instead of just showing the previous step. You
+								could only refresh the page if certain steps were
+								completed, or loaded in a completed state.
+							</td>
+						</tr>
+						<tr>
 							<td>step_start</td>
 							<td>string</td>
 							<td>'1'</td>
@@ -1991,6 +2009,24 @@ $(function(){
 							the next step.</td>
 						</tr>
 						<tr>
+							<td>btn_wait_class</td>
+							<td>string</td>
+							<td>'btn-wait'</td>
+							<td>The name of the class you want to use to execute 
+								the click function on the toggle buttons
+								- next, back, submit - with a delay; 
+								good for giving time to the validation rule to 
+								wait on ajax calls.</td>
+						</tr>
+						<tr>
+							<td>btn_wait_time</td>
+							<td>integer</td>
+							<td>1000</td>
+							<td>In milliseconds, the amount of time used to delay
+								the click function applied to toggle buttons 
+								that have the btn_wait_class applied to them.</td>
+						</tr>
+						<tr>
 							<td>load_after_steps</td>
 							<td>function</td>
 							<td>undefined</td>
@@ -2083,6 +2119,15 @@ $(function(){
 								<code>$('#my_psteps').trigger('traverse_always.psteps');</code>
 							</td>
 						</tr>
+						<tr>
+							<td>traverse_custom.psteps</td>
+							<td>This event should be fired on the psteps object. It will change traversal of step titles to custom.
+								Specify your custom class in the options. I haven't used this, because I ended up adding the class step-notraverse
+								to completed steps and left the setting on steps-visited. I prefer that because then I can let the plugin
+								keep track of visited steps, but prevent certain ones from being re-visited.
+								<code>$('#my_psteps').trigger('traverse_custom.psteps');</code>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 
@@ -2152,6 +2197,29 @@ $(function(){
 	if (cur_step.hasClass('pstep1') {
 		// Hiding Step 1
 		form.find('.submit-button').removeClass('btn-manual');
+	}
+}</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>btn-wait</td>
+							<td>Put this class on either the next-button, submit-button, or back-button.
+								Should put the class on in the steps_show function. Should remove this class
+								on the steps_hide function. Use this with the options to change the class 
+								name to something else you prefer. You also use this with the btn_wait_time option, default 1000ms,
+								to make the click function execute with a delay. Useful if you use ajax to validate/save and you need
+								to wait to get back errors/warnings and do not want progression to happen right away (before ajax finishes).
+							<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">steps_show: function(){
+	cur_step = $(this);
+	if (cur_step.hasClass('pstep1') {
+		// Showing Step 1
+		form.find('.submit-button').addClass('btn-wait');
+	}
+}, steps_hide: function(){
+	cur_step = $(this);
+	if (cur_step.hasClass('pstep1') {
+		// Hiding Step 1
+		form.find('.submit-button').removeClass('btn-wait');
 	}
 }</pre>
 							</td>
