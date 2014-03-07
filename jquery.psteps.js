@@ -232,7 +232,7 @@
 				}
 
 				// Back Button
-				if (opts.back) {
+				if (opts.back && !back_button.hasClass('btn-manual')) {
 					if (psteps.find('.step-title').first().hasClass('step-active'))
 						back_button.hide();
 					else {
@@ -248,7 +248,7 @@
 
 						back_button.show();
 					}
-				} else
+				} else if (!back_button.hasClass('btn-manual'))
 					back_button.hide();
 			};
 
