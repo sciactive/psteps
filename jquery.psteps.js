@@ -333,11 +333,23 @@
 					
 			};
 
-			// Function to go to the next step (calls go to step)
-			psteps.go_to_prev_step = function(){
-				var preceeding_titles = psteps.find('.step-title.step-active').prevAll('.step-title');
-				psteps.go_to_step(preceeding_titles.length);
-			};
+			// Function to go to the previous step (calls go to step)
+            		psteps.go_to_prev_step = function() {
+                		var preceeding_titles = psteps.find('.step-title.step-active').prevAll('.step-title');
+                		if(opts.skip_no_traverse_on_next) {
+                    			var prev_step = psteps.find('.step-title').eq(preceeding_titles.length - 1);
+                    			if(prev_step.hasClass('step-notraverse')) {
+                        			var new_prev_step = prev_step.prevAll('.step-title:not(.step-notraverse)').first().prevAll('.step-title').length + 1;
+                        			psteps.go_to_step(new_prev_step);
+                    			}
+                    			else{
+                        			psteps.go_to_step(preceeding_titles.length);
+                    			}
+                		}
+                		else{
+                    			psteps.go_to_step(preceeding_titles.length);
+                		}
+            		};
 
 			// Function to set or change the way titles are traversed. Used by
 			// the binding events that can be triggered to change the type.
