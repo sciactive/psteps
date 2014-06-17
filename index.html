@@ -35,7 +35,7 @@
 	<!--[if IE 7]>
 	<link href="includes/fontawesome/css/font-awesome-ie7.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
-	<!-- Pines Notify -->
+	<!-- PNotify -->
 	<link href="includes/pnotify/jquery.pnotify.default.icons.css" rel="stylesheet" type="text/css" />
 	<link href="includes/pnotify/jquery.pnotify.default.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="includes/pnotify/jquery.pnotify.js"></script>
@@ -668,7 +668,7 @@
 
 			/*
 			* ###### CIRCLE DESIGN ######
-			* 
+			*
 			* The following is what you need to do to make the pretty numbered
 			* circle style steps!!
 			*/
@@ -834,7 +834,7 @@
 			$('#navbar').scrollspy();
 		});
 	</script>
-	<!-- Pines Form -->
+	<!-- PForm -->
 	<link href="includes/pform.css" media="all" rel="stylesheet" type="text/css" />
 	<link href="includes/pform-bootstrap.css" media="all" rel="stylesheet" type="text/css" />
 	<!--[if lt IE 8]>
@@ -872,10 +872,10 @@
 								<li><a href="http://pinesframework.org/" target="_blank">Pines Framework</a></li>
 								<li><a href="http://pinescms.org/" target="_blank">Pines CMS</a></li>
 								<li class="divider"></li>
-								<li><a href="http://pinesframework.org/pnotify/" target="_blank">Pines Notify</a></li>
-								<li><a href="http://pinesframework.org/pform/" target="_blank">Pines Form</a></li>
-								<li><a href="http://pinesframework.org/pgrid/" target="_blank">Pines Grid</a></li>
-								<li><a href="http://pinesframework.org/ptags/" target="_blank">Pines Tags</a></li>
+								<li><a href="http://sciactive.com/pnotify/" target="_blank">PNotify</a></li>
+								<li><a href="http://sciactive.com/pform/" target="_blank">PForm</a></li>
+								<li><a href="http://sciactive.com/pgrid/" target="_blank">PGrid</a></li>
+								<li><a href="http://sciactive.com/ptags/" target="_blank">PTags</a></li>
 								<li class="divider"></li>
 								<li>
 									<a href="http://sourceforge.net/projects/pines" target="_blank"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=264165&amp;type=13" width="120" height="30" alt="Get Pines at SourceForge.net. Fast, secure and Free Open Source software downloads" style="border: none;" /></a>
@@ -1774,8 +1774,8 @@ $(function(){
 							<td>function</td>
 							<td>undefined, num</td>
 							<td>Function arguments are undefined, num, where num
-								is the integer representing the previous step to 
-								go back to. Useful if you want to reload the whole 
+								is the integer representing the previous step to
+								go back to. Useful if you want to reload the whole
 								page instead of just showing the previous step. You
 								could only refresh the page if certain steps were
 								completed, or loaded in a completed state.
@@ -1854,14 +1854,14 @@ $(function(){
 							<td>function</td>
 							<td>undefined</td>
 							<td>
-								This function is used for creating transitions between steps. It is ran before steps_hide. 
+								This function is used for creating transitions between steps. It is ran before steps_hide.
 								You need to add the class 'step-transition' to the step-title you are transitioning from for this
-								to be called. You also need to add the class in this function 'step-transition-processing' to 
-								prevent the transition. Which ever step that was going to be transitioned to will have a 
-								'step-resume' class on the title. Once you remove 'step-transition-processing and trigger the event 
-								go_to_step.psteps on the step-resume title, you'll have transitioned. This function definitely has 
+								to be called. You also need to add the class in this function 'step-transition-processing' to
+								prevent the transition. Which ever step that was going to be transitioned to will have a
+								'step-resume' class on the title. Once you remove 'step-transition-processing and trigger the event
+								go_to_step.psteps on the step-resume title, you'll have transitioned. This function definitely has
 								a manual operation to it, but it is useful. You could always use the step-transition-processing class
-								to stop transitions and just never manually start them up again. 
+								to stop transitions and just never manually start them up again.
 								(Remember to remove the step-resume class if you do that.)
 								<br/><br/>
 								<pre class="prettyprint linenums" onload="var text = $(this).html(); $(this).html(js_beautify(text));">steps_transition: function(){
@@ -2012,10 +2012,10 @@ $(function(){
 							<td>btn_wait_class</td>
 							<td>string</td>
 							<td>'btn-wait'</td>
-							<td>The name of the class you want to use to execute 
+							<td>The name of the class you want to use to execute
 								the click function on the toggle buttons
-								- next, back, submit - with a delay; 
-								good for giving time to the validation rule to 
+								- next, back, submit - with a delay;
+								good for giving time to the validation rule to
 								wait on ajax calls.</td>
 						</tr>
 						<tr>
@@ -2023,7 +2023,7 @@ $(function(){
 							<td>integer</td>
 							<td>1000</td>
 							<td>In milliseconds, the amount of time used to delay
-								the click function applied to toggle buttons 
+								the click function applied to toggle buttons
 								that have the btn_wait_class applied to them.</td>
 						</tr>
 						<tr>
@@ -2137,12 +2137,12 @@ $(function(){
 					<h2>Miscellaneous</h2>
 				</div>
 				<p>
-					What if you want different names for your next button? 
+					What if you want different names for your next button?
 					Or you want the submit button to show up on an earlier step
 					but don't want it to flash the automatic hide from the plugin?
 					Or you want to have some kind of transition between the steps?
 					Or you want to prevent a next/submit button from going to the next
-					step? 
+					step?
 				</p>
 				<p>
 					There are some classes you can add to certain elements to create
@@ -2165,9 +2165,9 @@ $(function(){
 						</tr>
 						<tr>
 							<td>step-transition-processing</td>
-							<td>Add this class to a step-title during the steps_transition 
+							<td>Add this class to a step-title during the steps_transition
 								function to prevent automatic transitioning to the next step.
-								The plugin will add the class 'step-resume' to the step title for the step 
+								The plugin will add the class 'step-resume' to the step title for the step
 								that was prevented. Then use the event 'go_to_step.psteps' on
 								the step-resume step in order to manually resume the step transition.
 								Remember to remove this class before triggering!
@@ -2205,7 +2205,7 @@ $(function(){
 							<td>btn-wait</td>
 							<td>Put this class on either the next-button, submit-button, or back-button.
 								Should put the class on in the steps_show function. Should remove this class
-								on the steps_hide function. Use this with the options to change the class 
+								on the steps_hide function. Use this with the options to change the class
 								name to something else you prefer. You also use this with the btn_wait_time option, default 1000ms,
 								to make the click function execute with a delay. Useful if you use ajax to validate/save and you need
 								to wait to get back errors/warnings and do not want progression to happen right away (before ajax finishes).
@@ -2238,7 +2238,7 @@ form.find('.pstep1.step-title').addClass('step-notraverse');
 						</tr>
 					</tbody>
 				</table>
-				
+
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -2293,9 +2293,9 @@ form.find('.pstep1.step-title').addClass('step-notraverse');
 					consider using <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome</a> in conjuction with bootstrap because it renders all of the
 					icons as fonts, so they take on any font color and can be made any size.
 					Look at the <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome project on Github</a>.
-					Two other plugins in the Pines project, <a href="">Pines Form</a> and <a href="http://pinesframework.org/pnotify/">Pines Notify</a> are used in the Demos on this page
-					are also included! <a href="http://pinesframework.org/pnotify/">Pines Notify</a> is a fully customizable notification system that I've used in my demos
-					to consume alerts. <a href="http://pinesframework.org/pform/">Pines Form</a> is used on all form elements in my demos and is extremely flexible, crossbrowser efficient and fully semantic.
+					Two other plugins in the Pines project, <a href="http://sciactive.com/pform/">PForm</a> and <a href="http://sciactive.com/pnotify/">PNotify</a> are used in the Demos on this page
+					are also included! <a href="http://sciactive.com/pnotify/">PNotify</a> is a fully customizable notification system that I've used in my demos
+					to consume alerts. <a href="http://sciactive.com/pform/">PForm</a> is used on all form elements in my demos and is extremely flexible, crossbrowser efficient and fully semantic.
 					Consider adapting these plugins into your projects!
 				</p>
 			</div>

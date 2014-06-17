@@ -1,0 +1,14 @@
+{
+  "name": "psteps",
+  "version": "1.0.0",
+  "main": "jquery.psteps.js",
+  "ignore": [
+    ".jshintrc",
+    "includes/",
+    "*.css",
+    "**/*.md"
+  ],
+  "dependencies": {
+    "bootstrap": "3"
+  }
+}
